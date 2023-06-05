@@ -4,6 +4,7 @@
 dline:
 #include topixel.s
 
+
   sub sp, sp, 80
   stur x12, [sp, 72]
   stur x11, [sp, 64]

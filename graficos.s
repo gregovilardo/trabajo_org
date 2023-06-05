@@ -1,6 +1,8 @@
 .ifndef graficos_s
 .equ graficos_s, 0
 
+.include "datos.s"
+
 
 /* pintarPixel:
     Parámetros:
@@ -21,14 +23,15 @@ pintarPixel:
         cmp x3, 480 // Veo si el y es valido
         b.hs return_pintarPixel 
         mov x9, 640
-        madd x9, x3, x9, x2 // x9 = (x3 * x9) + x2
-        str w1, [x0, x9, lsl #2] // Guardo w1 en x0 + x9*2^2
+        //madd x9, x3, x9, x2  + x2
+        mul x9, x9, x3    // x9 = y*640
+        add x9, x9, x2    // x9 = y*640 + x
+        lsl x9, x9, 2     // x9 = 4*(y*640 + x)  
+        str w1, [x0, x9]  // Guardo el color w1 en la direccion base x0 + 4*(y*640 + x) 
 
     return_pintarPixel:
         br lr // return
 //
-
-
 
 
 
@@ -86,6 +89,7 @@ pintarRectangulo:
         cmp x3, x5
         b.gt end_loop_pintarRectangulo
         bl pintarLineaHorizontal
+        add x1, x1, x24  // Para el degradado
         add x3, x3, #1
         b loop_pintarRectangulo
     
@@ -202,7 +206,7 @@ dline:
 
   loop:
     cmp x2, x4     // while(x1 < x2)
-    b.hs end       // x1 >= x2 => end
+    b.hs end       // x1 >= x2 => end 
   
     // Pinto las coordenadas x1,x2 es decir x1, y1
     bl pintarPixel
@@ -210,7 +214,7 @@ dline:
     // if (p>=0) 
     cmp x8, xzr
     b.lt else
-    add x3, x3, 1      //y1++
+    add x3, x3, 1      //y1++ 
     lsl x9, x6, 1    //x9 = 2*dx
     subs x8, x8, x9  // p=p-2*dx
   else:
@@ -238,9 +242,9 @@ dline:
       // if (p>=0) 
       cmp x8, xzr
       b.lt else1
-      add x3, x3, 1      //y1++
+      add x3, x3, 1      //y1++ 
       lsl x9, x6, 1    //x9 = 2*dx
-      adds x8, x8, x9  // p=p+2*dx
+      adds x8, x8, x9  // p=p+2*dx 
     else1:
       cmp x8, xzr
       b.ge endif1
@@ -265,7 +269,7 @@ dline:
     add sp, sp, 80
   	br lr
 	
-/* pintarTriangulo:
+/* pintarTrianguloRectangulo:
     Parámetros:
         x0 = Dirección base del arreglo
         w1 = Color
@@ -278,19 +282,19 @@ dline:
     No modifica ningún parámetro.
  */
 
-pintarTriangulo:
+pintarTrianguloRectangulo:
   sub sp, sp, #16 
   stur lr, [sp, #8] // Guardo el puntero de retorno en el stack
   stur x3, [sp] // Guardo x3 en el stack
 
-  loop_pintarTriangulo: // loop para avanzar en y
-    cmp x3, x5
-    b.gt end_loop_pintarTriangulo
+  loop_pintarTrianguloRectangulo: // loop para avanzar en y
+    cmp x3, x5                    // Comparo y1 con y2 si y1 > y2 -> termino
+    b.gt end_loop_pintarTrianguloRectangulo
     bl dline
-    add x3, x3, #1
-    b loop_pintarTriangulo
+    add x3, x3, #1                // Sumo uno a x1 
+    b loop_pintarTrianguloRectangulo
   
-  end_loop_pintarTriangulo:
+  end_loop_pintarTrianguloRectangulo:
     ldur lr, [sp, #8] // Recupero el puntero de retorno del stack
     ldur x3, [sp] // Recupero x3 del stack
     add sp, sp, #16
@@ -298,6 +302,101 @@ pintarTriangulo:
     br lr // return
 //
 
+
+//x3 es la coordenada y1
+pintarTrianguloRectanguloDown:
+  sub sp, sp, #16 
+  stur lr, [sp, #8] // Guardo el puntero de retorno en el stack
+  stur x2, [sp] // Guardo x3 en el stack
+
+  loop_pintarTrianguloRectanguloDown: // loop para avanzar en y
+    cmp x2, x4       // Comparas x1 con x2 
+    b.gt end_loop_pintarTrianguloRectanguloDown
+    bl dline
+    add x2, x2, #1   // Sumas uno en x1
+    b loop_pintarTrianguloRectanguloDown
+  
+  end_loop_pintarTrianguloRectanguloDown:
+    ldur lr, [sp, #8] // Recupero el puntero de retorno del stack
+    ldur x2, [sp] // Recupero x3 del stack
+    add sp, sp, #16
+
+    br lr // return
+//
+
+
+pintarTrianguloRectanguloDownI:
+  sub sp, sp, #16 
+  stur lr, [sp, #8] // Guardo el puntero de retorno en el stack
+  stur x2, [sp] // Guardo x3 en el stack
+
+  loop_pintarTrianguloRectanguloDownI: // loop para avanzar en y
+    cmp x4, x2      // Comparas x2 con x1
+    b.gt end_loop_pintarTrianguloRectanguloDownI
+    bl dline
+    sub x2, x2, #1   // resto uno en x2
+    b loop_pintarTrianguloRectanguloDownI
+  
+  end_loop_pintarTrianguloRectanguloDownI:
+    ldur lr, [sp, #8] // Recupero el puntero de retorno del stack
+    ldur x2, [sp] // Recupero x3 del stack
+    add sp, sp, #16
+
+    br lr // return
+//
+
+
+/* pintarTriangulo:
+    Parametros
+      /* pintarTrianguloRectangulo:
+    Parámetros:
+        x0 = Dirección base del arreglo
+        w1 = Color
+        x2 = Coordenada centro en x   
+        x3 = Coordenada centro en y
+        x4 = Coordenada final en x
+        x5 = Coordenada final en y
+
+      (x2, x3) son la punta de la piramide
+
+    Utiliza los registros usados por pintarPixel (x9).
+    No modifica ningún parámetro.
+ */
+ pintarTriangulo:
+  sub sp, sp, 16 
+  stur lr, [sp, 8] // Guardo el puntero de retorno en el stack
+  stur x4, [sp] // Guardo x4 en el stack
+  bl pintarTrianguloRectangulo
+  sub x9, x4, x2  // x9 = x4 - x2
+  sub x4, x2, x9  // x4 = x2 - x9
+  bl pintarTrianguloRectangulo
+  ldur lr, [sp, 8] // Recupero el puntero de retorno del stack
+  ldur x4, [sp] // Recupero x4 del stack
+  add sp, sp, 16
+  br lr // return
+//
+
+
+ pintarTrianguloDown:
+  sub sp, sp, 24 
+  stur lr, [sp, 16] // Guardo el puntero de retorno en el stack
+  stur x2, [sp, 8]
+  stur x4, [sp] // Guardo x4 en el stack
+  bl pintarTrianguloRectanguloDown
+  // x2* = x4 + (x4 - x2) ///     si x2 120   ---- >  240    180 + (180-120) = 240
+	// x3* = x3
+	// x4* = x4 -1	
+	// x5* = x5
+  sub x2, x4, x2  
+  add x2, x4, x2  
+	sub x4, x4, 1				 
+  bl pintarTrianguloRectanguloDownI 
+  ldur lr, [sp, 16] // Guardo el puntero de retorno en el stack
+  ldur x2, [sp, 8]
+  ldur x4, [sp] // Guardo x4 en el stack
+  add sp, sp, 24 
+  br lr // return
+//
 
 /* circulos_horizontales
     Parámetros:
@@ -316,10 +415,10 @@ pintarTriangulo:
 circulos_horizontales:
   sub sp, sp, #16 
   stur lr, [sp, #8]   // Guardo el puntero de retorno en el stack
-  stur x2, [sp]       // Guardo x3 en el stack
+  stur x2, [sp, #0]       // Guardo x2 en el stack
 
   loop_circulos_horizontales: // loop para avanzar en x
-    cmp x2, x6
+    cmp x2, x6            
     b.gt end_loop_circulos_horizontales
     bl pintarCirculo
     add x2, x2, x5
@@ -366,11 +465,37 @@ circulos_verticales:
 
     br lr // return
 
-forma_nube:
-	movz x1, 0xff, lsl 16
-	movk x1, 0xffff, lsl 00
+
+/* columnaTriangulos:
+        x0 = Dirección base del arreglo
+        w1 = Color
+        x2 = Coordenada centro en x   
+        x3 = Coordenada centro en y
+        x4 = Coordenada final en x
+        x5 = Coordenada final en y
+        x6 = Separacion triangulos
+
+      (x2, x3) son la punta de la piramide
+*/
+
+columnaTriangulos:
+  sub sp, sp, #16 
+  stur lr, [sp, #8]   // Guardo el puntero de retorno en el stack
+  stur x3, [sp]       // Guardo x3 en el stack
+
+  loop_triangulos_verticales: // loop para avanzar en x
+    cmp x3, x5
+    b.gt end_loop_triangulos_verticales
+    bl pintarTriangulo
+    add x3, x3, x6
+    b loop_triangulos_verticales
   
-    bl circulos_horizontales
+  end_loop_triangulos_verticales:
+    ldur lr, [sp, #8] // Recupero el puntero de retorno del stack
+    ldur x3, [sp] // Recupero x3 del stack
+    add sp, sp, #16
+    br lr // return
 
 
 .endif
+

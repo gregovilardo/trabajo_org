@@ -35,7 +35,7 @@ Disassembly of section .text:
    8004c:	12007400 	and	w0, w0, #0x3fffffff
    80050:	b9000040 	str	w0, [x2]
    80054:	0b1f000a 	add	w10, w0, wzr
-   80058:	1400401c 	b	900c8 <main>
+   80058:	140241a4 	b	1106e8 <main>
    8005c:	d503201f 	nop
    80060:	d503201f 	nop
    80064:	d503201f 	nop
@@ -16451,7 +16451,7 @@ Disassembly of section .text:
 	...
    900a0:	00080000 	.inst	0x00080000 ; undefined
    900a4:	00000000 	udf	#0
-   900a8:	00110350 	.inst	0x00110350 ; undefined
+   900a8:	00111000 	.inst	0x00111000 ; undefined
    900ac:	00000000 	udf	#0
    900b0:	00090008 	.inst	0x00090008 ; undefined
    900b4:	00000000 	udf	#0
@@ -16460,332 +16460,1549 @@ Disassembly of section .text:
    900c0:	0009008c 	.inst	0x0009008c ; undefined
    900c4:	00000000 	udf	#0
 
-00000000000900c8 <main>:
-   900c8:	aa0003f4 	mov	x20, x0
-   900cc:	d2a0044a 	mov	x10, #0x220000              	// #2228224
-   900d0:	f284444a 	movk	x10, #0x2222
-   900d4:	d2803c02 	mov	x2, #0x1e0                 	// #480
+00000000000900c8 <dline>:
+   900c8:	d10143ff 	sub	sp, sp, #0x50
+   900cc:	f80483ec 	stur	x12, [sp, #72]
+   900d0:	f80403eb 	stur	x11, [sp, #64]
+   900d4:	f80383e9 	stur	x9, [sp, #56]
+   900d8:	f80303e8 	stur	x8, [sp, #48]
+   900dc:	f80283e7 	stur	x7, [sp, #40]
+   900e0:	f80203e6 	stur	x6, [sp, #32]
+   900e4:	f80183e5 	stur	x5, [sp, #24]
+   900e8:	f80103e2 	stur	x2, [sp, #16]
+   900ec:	f80083e1 	stur	x1, [sp, #8]
+   900f0:	f80003fe 	stur	x30, [sp]
+   900f4:	eb03003f 	cmp	x1, x3
+   900f8:	54000121 	b.ne	9011c <notvert>  // b.any
 
-00000000000900d8 <loop1>:
-   900d8:	d2805001 	mov	x1, #0x280                 	// #640
+00000000000900fc <lp>:
+   900fc:	eb04005f 	cmp	x2, x4
+   90100:	5400060a 	b.ge	901c0 <end>  // b.tcont
+   90104:	aa0103eb 	mov	x11, x1
+   90108:	aa0203f6 	mov	x22, x2
+   9010c:	9402005a 	bl	110274 <topixel>
+   90110:	b80002ea 	stur	w10, [x23]
+   90114:	91000442 	add	x2, x2, #0x1
+   90118:	17fffff9 	b	900fc <lp>
 
-00000000000900dc <loop0>:
-   900dc:	b800000a 	stur	w10, [x0]
-   900e0:	91001000 	add	x0, x0, #0x4
-   900e4:	d1000421 	sub	x1, x1, #0x1
-   900e8:	b5ffffa1 	cbnz	x1, 900dc <loop0>
-   900ec:	d1000442 	sub	x2, x2, #0x1
-   900f0:	b5ffff42 	cbnz	x2, 900d8 <loop1>
-   900f4:	d2a01fea 	mov	x10, #0xff0000              	// #16711680
-   900f8:	f29fffea 	movk	x10, #0xffff
-   900fc:	d280190b 	mov	x11, #0xc8                  	// #200
-   90100:	d2801916 	mov	x22, #0xc8                  	// #200
-   90104:	94020086 	bl	11031c <topixel>
-   90108:	d2800c81 	mov	x1, #0x64                  	// #100
-   9010c:	d2800c82 	mov	x2, #0x64                  	// #100
-   90110:	d280014b 	mov	x11, #0xa                   	// #10
-   90114:	d2800156 	mov	x22, #0xa                   	// #10
-   90118:	d2802801 	mov	x1, #0x140                 	// #320
-   9011c:	d2801e02 	mov	x2, #0xf0                  	// #240
-   90120:	d2802943 	mov	x3, #0x14a                 	// #330
-   90124:	d2803704 	mov	x4, #0x1b8                 	// #440
-   90128:	94000012 	bl	90170 <dline>
-   9012c:	d2a7e409 	mov	x9, #0x3f200000            	// #1059061760
-   90130:	b900013f 	str	wzr, [x9]
+000000000009011c <notvert>:
+   9011c:	eb010065 	subs	x5, x3, x1
+   90120:	cb020086 	sub	x6, x4, x2
+   90124:	540002c4 	b.mi	9017c <loop1>  // b.first
+   90128:	eb0500c7 	subs	x7, x6, x5
+   9012c:	d37ff8e7 	lsl	x7, x7, #1
 
-0000000000090134 <InfLoop>:
-   90134:	b940352d 	ldr	w13, [x9, #52]
-   90138:	b940352e 	ldr	w14, [x9, #52]
-   9013c:	121f01ad 	and	w13, w13, #0x2
-   90140:	121b01ce 	and	w14, w14, #0x20
-   90144:	d2800001 	mov	x1, #0x0                   	// #0
-   90148:	d2800002 	mov	x2, #0x0                   	// #0
-   9014c:	d2805003 	mov	x3, #0x280                 	// #640
-   90150:	d2803c04 	mov	x4, #0x1e0                 	// #480
-   90154:	350000ed 	cbnz	w13, 90170 <dline>
-   90158:	d2800001 	mov	x1, #0x0                   	// #0
-   9015c:	d2800002 	mov	x2, #0x0                   	// #0
-   90160:	d2802a83 	mov	x3, #0x154                 	// #340
-   90164:	d2801a44 	mov	x4, #0xd2                  	// #210
-   90168:	3500004e 	cbnz	w14, 90170 <dline>
-   9016c:	17fffff2 	b	90134 <InfLoop>
+0000000000090130 <loop>:
+   90130:	eb03003f 	cmp	x1, x3
+   90134:	54000462 	b.cs	901c0 <end>  // b.hs, b.nlast
+   90138:	aa0103eb 	mov	x11, x1
+   9013c:	aa0203f6 	mov	x22, x2
+   90140:	9402004d 	bl	110274 <topixel>
+   90144:	b80002ea 	stur	w10, [x23]
+   90148:	eb1f00ff 	cmp	x7, xzr
+   9014c:	5400008b 	b.lt	9015c <else>  // b.tstop
+   90150:	91000442 	add	x2, x2, #0x1
+   90154:	d37ff8a8 	lsl	x8, x5, #1
+   90158:	eb0800e7 	subs	x7, x7, x8
 
-0000000000090170 <dline>:
-   90170:	d10143ff 	sub	sp, sp, #0x50
-   90174:	f80483ec 	stur	x12, [sp, #72]
-   90178:	f80403eb 	stur	x11, [sp, #64]
-   9017c:	f80383e9 	stur	x9, [sp, #56]
-   90180:	f80303e8 	stur	x8, [sp, #48]
-   90184:	f80283e7 	stur	x7, [sp, #40]
-   90188:	f80203e6 	stur	x6, [sp, #32]
-   9018c:	f80183e5 	stur	x5, [sp, #24]
-   90190:	f80103e2 	stur	x2, [sp, #16]
-   90194:	f80083e1 	stur	x1, [sp, #8]
-   90198:	f80003fe 	stur	x30, [sp]
-   9019c:	eb03003f 	cmp	x1, x3
-   901a0:	54000121 	b.ne	901c4 <notvert>  // b.any
+000000000009015c <else>:
+   9015c:	eb1f00ff 	cmp	x7, xzr
+   90160:	5400008a 	b.ge	90170 <endif>  // b.tcont
+   90164:	d37ff8c9 	lsl	x9, x6, #1
+   90168:	ab0900e7 	adds	x7, x7, x9
+   9016c:	91000421 	add	x1, x1, #0x1
 
-00000000000901a4 <lp>:
-   901a4:	eb04005f 	cmp	x2, x4
-   901a8:	5400060a 	b.ge	90268 <end>  // b.tcont
-   901ac:	aa0103eb 	mov	x11, x1
-   901b0:	aa0203f6 	mov	x22, x2
-   901b4:	9402005a 	bl	11031c <topixel>
-   901b8:	b80002ea 	stur	w10, [x23]
-   901bc:	91000442 	add	x2, x2, #0x1
-   901c0:	17fffff9 	b	901a4 <lp>
+0000000000090170 <endif>:
+   90170:	17fffff0 	b	90130 <loop>
+   90174:	eb1f00bf 	cmp	x5, xzr
+   90178:	5400024c 	b.gt	901c0 <end>
 
-00000000000901c4 <notvert>:
-   901c4:	eb010065 	subs	x5, x3, x1
-   901c8:	cb020086 	sub	x6, x4, x2
-   901cc:	540002c4 	b.mi	90224 <loop1>  // b.first
-   901d0:	eb0500c7 	subs	x7, x6, x5
-   901d4:	d37ff8e7 	lsl	x7, x7, #1
+000000000009017c <loop1>:
+   9017c:	eb03003f 	cmp	x1, x3
+   90180:	5400020d 	b.le	901c0 <end>
+   90184:	aa0103eb 	mov	x11, x1
+   90188:	aa0203f6 	mov	x22, x2
+   9018c:	9402003a 	bl	110274 <topixel>
+   90190:	b80002ea 	stur	w10, [x23]
+   90194:	eb1f00ff 	cmp	x7, xzr
+   90198:	5400008b 	b.lt	901a8 <else1>  // b.tstop
+   9019c:	91000442 	add	x2, x2, #0x1
+   901a0:	d37ff8a8 	lsl	x8, x5, #1
+   901a4:	ab0800e7 	adds	x7, x7, x8
 
-00000000000901d8 <loop>:
-   901d8:	eb03003f 	cmp	x1, x3
-   901dc:	54000462 	b.cs	90268 <end>  // b.hs, b.nlast
-   901e0:	aa0103eb 	mov	x11, x1
-   901e4:	aa0203f6 	mov	x22, x2
-   901e8:	9402004d 	bl	11031c <topixel>
-   901ec:	b80002ea 	stur	w10, [x23]
-   901f0:	eb1f00ff 	cmp	x7, xzr
-   901f4:	5400008b 	b.lt	90204 <else>  // b.tstop
-   901f8:	91000442 	add	x2, x2, #0x1
-   901fc:	d37ff8a8 	lsl	x8, x5, #1
-   90200:	eb0800e7 	subs	x7, x7, x8
+00000000000901a8 <else1>:
+   901a8:	eb1f00ff 	cmp	x7, xzr
+   901ac:	5400008a 	b.ge	901bc <endif1>  // b.tcont
+   901b0:	d37ff8c9 	lsl	x9, x6, #1
+   901b4:	ab0900e7 	adds	x7, x7, x9
+   901b8:	f1000421 	subs	x1, x1, #0x1
 
-0000000000090204 <else>:
-   90204:	eb1f00ff 	cmp	x7, xzr
-   90208:	5400008a 	b.ge	90218 <endif>  // b.tcont
-   9020c:	d37ff8c9 	lsl	x9, x6, #1
-   90210:	ab0900e7 	adds	x7, x7, x9
-   90214:	91000421 	add	x1, x1, #0x1
+00000000000901bc <endif1>:
+   901bc:	17fffff0 	b	9017c <loop1>
 
-0000000000090218 <endif>:
-   90218:	17fffff0 	b	901d8 <loop>
-   9021c:	eb1f00bf 	cmp	x5, xzr
-   90220:	5400024c 	b.gt	90268 <end>
+00000000000901c0 <end>:
+   901c0:	f84483ec 	ldur	x12, [sp, #72]
+   901c4:	f84403eb 	ldur	x11, [sp, #64]
+   901c8:	f84383e9 	ldur	x9, [sp, #56]
+   901cc:	f84303e8 	ldur	x8, [sp, #48]
+   901d0:	f84283e7 	ldur	x7, [sp, #40]
+   901d4:	f84203e6 	ldur	x6, [sp, #32]
+   901d8:	f84183e5 	ldur	x5, [sp, #24]
+   901dc:	f84103e2 	ldur	x2, [sp, #16]
+   901e0:	f84083e1 	ldur	x1, [sp, #8]
+   901e4:	f84003fe 	ldur	x30, [sp]
+   901e8:	910143ff 	add	sp, sp, #0x50
+   901ec:	d61f03c0 	br	x30
+
+00000000000901f0 <rectangle>:
+   901f0:	d10103ff 	sub	sp, sp, #0x40
+   901f4:	f80383fe 	stur	x30, [sp, #56]
+   901f8:	f80303f6 	stur	x22, [sp, #48]
+   901fc:	f80283e5 	stur	x5, [sp, #40]
+   90200:	f80203e4 	stur	x4, [sp, #32]
+   90204:	f80183e3 	stur	x3, [sp, #24]
+   90208:	f80103e2 	stur	x2, [sp, #16]
+   9020c:	f80083e1 	stur	x1, [sp, #8]
+   90210:	f80003e0 	stur	x0, [sp]
+   90214:	aa0103e4 	mov	x4, x1
+   90218:	aa0203e5 	mov	x5, x2
+   9021c:	94020016 	bl	110274 <topixel>
+   90220:	aa1703e0 	mov	x0, x23
 
 0000000000090224 <loop1>:
-   90224:	eb03003f 	cmp	x1, x3
-   90228:	5400020d 	b.le	90268 <end>
-   9022c:	aa0103eb 	mov	x11, x1
-   90230:	aa0203f6 	mov	x22, x2
-   90234:	9402003a 	bl	11031c <topixel>
-   90238:	b80002ea 	stur	w10, [x23]
-   9023c:	eb1f00ff 	cmp	x7, xzr
-   90240:	5400008b 	b.lt	90250 <else1>  // b.tstop
-   90244:	91000442 	add	x2, x2, #0x1
-   90248:	d37ff8a8 	lsl	x8, x5, #1
-   9024c:	ab0800e7 	adds	x7, x7, x8
+   90224:	aa0403e1 	mov	x1, x4
 
-0000000000090250 <else1>:
-   90250:	eb1f00ff 	cmp	x7, xzr
-   90254:	5400008a 	b.ge	90264 <endif1>  // b.tcont
-   90258:	d37ff8c9 	lsl	x9, x6, #1
-   9025c:	ab0900e7 	adds	x7, x7, x9
-   90260:	f1000421 	subs	x1, x1, #0x1
-
-0000000000090264 <endif1>:
-   90264:	17fffff0 	b	90224 <loop1>
-
-0000000000090268 <end>:
-   90268:	f84483ec 	ldur	x12, [sp, #72]
-   9026c:	f84403eb 	ldur	x11, [sp, #64]
-   90270:	f84383e9 	ldur	x9, [sp, #56]
-   90274:	f84303e8 	ldur	x8, [sp, #48]
-   90278:	f84283e7 	ldur	x7, [sp, #40]
-   9027c:	f84203e6 	ldur	x6, [sp, #32]
-   90280:	f84183e5 	ldur	x5, [sp, #24]
-   90284:	f84103e2 	ldur	x2, [sp, #16]
-   90288:	f84083e1 	ldur	x1, [sp, #8]
-   9028c:	f84003fe 	ldur	x30, [sp]
-   90290:	910143ff 	add	sp, sp, #0x50
-   90294:	d61f03c0 	br	x30
-
-0000000000090298 <rectangle>:
-   90298:	d10103ff 	sub	sp, sp, #0x40
-   9029c:	f80383fe 	stur	x30, [sp, #56]
-   902a0:	f80303f6 	stur	x22, [sp, #48]
-   902a4:	f80283e5 	stur	x5, [sp, #40]
-   902a8:	f80203e4 	stur	x4, [sp, #32]
-   902ac:	f80183e3 	stur	x3, [sp, #24]
-   902b0:	f80103e2 	stur	x2, [sp, #16]
-   902b4:	f80083e1 	stur	x1, [sp, #8]
-   902b8:	f80003e0 	stur	x0, [sp]
-   902bc:	aa0103e4 	mov	x4, x1
-   902c0:	aa0203e5 	mov	x5, x2
-   902c4:	94020016 	bl	11031c <topixel>
-   902c8:	aa1703e0 	mov	x0, x23
-
-00000000000902cc <loop1>:
-   902cc:	aa0403e1 	mov	x1, x4
-
-00000000000902d0 <loop0>:
-   902d0:	b800000a 	stur	w10, [x0]
-   902d4:	91001000 	add	x0, x0, #0x4
-   902d8:	d1000421 	sub	x1, x1, #0x1
-   902dc:	b5ffffa1 	cbnz	x1, 902d0 <loop0>
-   902e0:	d1000442 	sub	x2, x2, #0x1
-   902e4:	910006d6 	add	x22, x22, #0x1
-   902e8:	9402000d 	bl	11031c <topixel>
-   902ec:	aa1703e0 	mov	x0, x23
-   902f0:	b5fffee2 	cbnz	x2, 902cc <loop1>
-   902f4:	f84383fe 	ldur	x30, [sp, #56]
-   902f8:	f84303f6 	ldur	x22, [sp, #48]
-   902fc:	f84283e5 	ldur	x5, [sp, #40]
-   90300:	f84203e4 	ldur	x4, [sp, #32]
-   90304:	f84183e3 	ldur	x3, [sp, #24]
-   90308:	f84103e2 	ldur	x2, [sp, #16]
-   9030c:	f84083e1 	ldur	x1, [sp, #8]
-   90310:	f84003e0 	ldur	x0, [sp]
-   90314:	910103ff 	add	sp, sp, #0x40
-   90318:	d61f03c0 	br	x30
+0000000000090228 <loop0>:
+   90228:	b800000a 	stur	w10, [x0]
+   9022c:	91001000 	add	x0, x0, #0x4
+   90230:	d1000421 	sub	x1, x1, #0x1
+   90234:	b5ffffa1 	cbnz	x1, 90228 <loop0>
+   90238:	d1000442 	sub	x2, x2, #0x1
+   9023c:	910006d6 	add	x22, x22, #0x1
+   90240:	9402000d 	bl	110274 <topixel>
+   90244:	aa1703e0 	mov	x0, x23
+   90248:	b5fffee2 	cbnz	x2, 90224 <loop1>
+   9024c:	f84383fe 	ldur	x30, [sp, #56]
+   90250:	f84303f6 	ldur	x22, [sp, #48]
+   90254:	f84283e5 	ldur	x5, [sp, #40]
+   90258:	f84203e4 	ldur	x4, [sp, #32]
+   9025c:	f84183e3 	ldur	x3, [sp, #24]
+   90260:	f84103e2 	ldur	x2, [sp, #16]
+   90264:	f84083e1 	ldur	x1, [sp, #8]
+   90268:	f84003e0 	ldur	x0, [sp]
+   9026c:	910103ff 	add	sp, sp, #0x40
+   90270:	d61f03c0 	br	x30
 	...
 
-000000000011031c <topixel>:
+0000000000110274 <topixel>:
+  110274:	d10043ff 	sub	sp, sp, #0x10
+  110278:	f80083fe 	stur	x30, [sp, #8]
+  11027c:	f80003e9 	stur	x9, [sp]
+  110280:	d2805009 	mov	x9, #0x280                 	// #640
+  110284:	9b097ed7 	mul	x23, x22, x9
+  110288:	8b0b02f7 	add	x23, x23, x11
+  11028c:	d37ef6f7 	lsl	x23, x23, #2
+  110290:	8b1402f7 	add	x23, x23, x20
+  110294:	f84083fe 	ldur	x30, [sp, #8]
+  110298:	f84003e9 	ldur	x9, [sp]
+  11029c:	910043ff 	add	sp, sp, #0x10
+  1102a0:	d61f03c0 	br	x30
+
+Disassembly of section .data:
+
+00000000001102a4 <degradado_r1>:
+  1102a4:	00010000 	.inst	0x00010000 ; undefined
+
+00000000001102a8 <degradado_g1>:
+  1102a8:	00000100 	udf	#256
+
+00000000001102ac <degradado_b1>:
+  1102ac:	00000001 	udf	#1
+
+00000000001102b0 <no_degradado>:
+  1102b0:	00000000 	udf	#0
+
+00000000001102b4 <colorArbusto>:
+  1102b4:	006ead6a 	.inst	0x006ead6a ; undefined
+
+00000000001102b8 <colorArbustoBorde>:
+  1102b8:	0051854d 	.inst	0x0051854d ; undefined
+
+00000000001102bc <colorTierraFondo>:
+  1102bc:	00653830 	.inst	0x00653830 ; undefined
+
+00000000001102c0 <colorTierraMedio>:
+  1102c0:	007c3b1a 	.inst	0x007c3b1a ; undefined
+
+00000000001102c4 <colorPeloCavernicola>:
+  1102c4:	0066280a 	.inst	0x0066280a ; undefined
+
+00000000001102c8 <colorPielCavernicola>:
+  1102c8:	000e6b8b 	.inst	0x000e6b8b ; undefined
+
+00000000001102cc <colorRopaCavernicola>:
+  1102cc:	00ff8000 	.inst	0x00ff8000 ; undefined
+
+00000000001102d0 <colorPasto>:
+  1102d0:	00ff0000 	.inst	0x00ff0000 ; undefined
+
+00000000001102d4 <colorRopaNinja2>:
+  1102d4:	00e0e0e0 	.inst	0x00e0e0e0 ; undefined
+
+00000000001102d8 <colorCielo>:
+  1102d8:	0066ffff 	.inst	0x0066ffff ; undefined
+
+00000000001102dc <colorCielo2>:
+  1102dc:	003399ff 	.inst	0x003399ff ; NYI
+
+00000000001102e0 <colorCielo3>:
+  1102e0:	000080ff 	udf	#33023
+
+00000000001102e4 <colorCielo4>:
+  1102e4:	00008bab 	udf	#35755
+
+00000000001102e8 <colorNubes>:
+  1102e8:	00ffffff 	.inst	0x00ffffff ; undefined
+
+00000000001102ec <colorNubes2>:
+  1102ec:	00e0e0e0 	.inst	0x00e0e0e0 ; undefined
+
+00000000001102f0 <colorSol>:
+  1102f0:	00ffff00 	.inst	0x00ffff00 ; undefined
+
+00000000001102f4 <pintarPixel>:
+  1102f4:	f10a005f 	cmp	x2, #0x280
+  1102f8:	54000102 	b.cs	110318 <return_pintarPixel>  // b.hs, b.nlast
+  1102fc:	f107807f 	cmp	x3, #0x1e0
+  110300:	540000c2 	b.cs	110318 <return_pintarPixel>  // b.hs, b.nlast
+  110304:	d2805009 	mov	x9, #0x280                 	// #640
+  110308:	9b037d29 	mul	x9, x9, x3
+  11030c:	8b020129 	add	x9, x9, x2
+  110310:	d37ef529 	lsl	x9, x9, #2
+  110314:	b8296801 	str	w1, [x0, x9]
+
+0000000000110318 <return_pintarPixel>:
+  110318:	d61f03c0 	br	x30
+
+000000000011031c <pintarLineaHorizontal>:
   11031c:	d10043ff 	sub	sp, sp, #0x10
   110320:	f80083fe 	stur	x30, [sp, #8]
-  110324:	f80003e9 	stur	x9, [sp]
-  110328:	d2805009 	mov	x9, #0x280                 	// #640
-  11032c:	9b097ed7 	mul	x23, x22, x9
-  110330:	8b0b02f7 	add	x23, x23, x11
-  110334:	d37ef6f7 	lsl	x23, x23, #2
-  110338:	8b1402f7 	add	x23, x23, x20
+  110324:	f80003e2 	stur	x2, [sp]
+
+0000000000110328 <loop_pintarLineaHorizontal>:
+  110328:	eb04005f 	cmp	x2, x4
+  11032c:	5400008c 	b.gt	11033c <end_loop_pintarLineaHorizontal>
+  110330:	97fffff1 	bl	1102f4 <pintarPixel>
+  110334:	91000442 	add	x2, x2, #0x1
+  110338:	17fffffc 	b	110328 <loop_pintarLineaHorizontal>
+
+000000000011033c <end_loop_pintarLineaHorizontal>:
   11033c:	f84083fe 	ldur	x30, [sp, #8]
-  110340:	f84003e9 	ldur	x9, [sp]
+  110340:	f84003e2 	ldur	x2, [sp]
   110344:	910043ff 	add	sp, sp, #0x10
   110348:	d61f03c0 	br	x30
 
-Disassembly of section .bss:
+000000000011034c <pintarRectangulo>:
+  11034c:	d10043ff 	sub	sp, sp, #0x10
+  110350:	f80083fe 	stur	x30, [sp, #8]
+  110354:	f80003e3 	stur	x3, [sp]
 
-000000000011034c <__bss_end-0x4>:
-  11034c:	00000000 	udf	#0
+0000000000110358 <loop_pintarRectangulo>:
+  110358:	eb05007f 	cmp	x3, x5
+  11035c:	540000ac 	b.gt	110370 <end_loop_pintarRectangulo>
+  110360:	97ffffef 	bl	11031c <pintarLineaHorizontal>
+  110364:	8b180021 	add	x1, x1, x24
+  110368:	91000463 	add	x3, x3, #0x1
+  11036c:	17fffffb 	b	110358 <loop_pintarRectangulo>
+
+0000000000110370 <end_loop_pintarRectangulo>:
+  110370:	f84083fe 	ldur	x30, [sp, #8]
+  110374:	f84003e3 	ldur	x3, [sp]
+  110378:	910043ff 	add	sp, sp, #0x10
+  11037c:	d61f03c0 	br	x30
+
+0000000000110380 <pintarCirculo>:
+  110380:	d10023ff 	sub	sp, sp, #0x8
+  110384:	f80003fe 	stur	x30, [sp]
+  110388:	aa0203ef 	mov	x15, x2
+  11038c:	aa0303f0 	mov	x16, x3
+  110390:	8b04004a 	add	x10, x2, x4
+  110394:	8b04006b 	add	x11, x3, x4
+  110398:	9b047c8c 	mul	x12, x4, x4
+  11039c:	cb040042 	sub	x2, x2, x4
+
+00000000001103a0 <loop0_pintarCirculo>:
+  1103a0:	eb0a005f 	cmp	x2, x10
+  1103a4:	5400020c 	b.gt	1103e4 <end_loop0_pintarCirculo>
+  1103a8:	cb040163 	sub	x3, x11, x4
+  1103ac:	cb040063 	sub	x3, x3, x4
+
+00000000001103b0 <loop1_pintarCirculo>:
+  1103b0:	eb0b007f 	cmp	x3, x11
+  1103b4:	5400014c 	b.gt	1103dc <end_loop1_pintarCirculo>
+  1103b8:	cb0f004d 	sub	x13, x2, x15
+  1103bc:	9b2d7dad 	smull	x13, w13, w13
+  1103c0:	cb10006e 	sub	x14, x3, x16
+  1103c4:	9b2e35cd 	smaddl	x13, w14, w14, x13
+  1103c8:	eb0c01bf 	cmp	x13, x12
+  1103cc:	5400004c 	b.gt	1103d4 <fi_pintarCirculo>
+  1103d0:	97ffffc9 	bl	1102f4 <pintarPixel>
+
+00000000001103d4 <fi_pintarCirculo>:
+  1103d4:	91000463 	add	x3, x3, #0x1
+  1103d8:	17fffff6 	b	1103b0 <loop1_pintarCirculo>
+
+00000000001103dc <end_loop1_pintarCirculo>:
+  1103dc:	91000442 	add	x2, x2, #0x1
+  1103e0:	17fffff0 	b	1103a0 <loop0_pintarCirculo>
+
+00000000001103e4 <end_loop0_pintarCirculo>:
+  1103e4:	aa0f03e2 	mov	x2, x15
+  1103e8:	aa1003e3 	mov	x3, x16
+  1103ec:	f84003fe 	ldur	x30, [sp]
+  1103f0:	910023ff 	add	sp, sp, #0x8
+  1103f4:	d61f03c0 	br	x30
+
+00000000001103f8 <dline>:
+  1103f8:	d10143ff 	sub	sp, sp, #0x50
+  1103fc:	f80483ed 	stur	x13, [sp, #72]
+  110400:	f80403ec 	stur	x12, [sp, #64]
+  110404:	f80383ea 	stur	x10, [sp, #56]
+  110408:	f80303e9 	stur	x9, [sp, #48]
+  11040c:	f80283e8 	stur	x8, [sp, #40]
+  110410:	f80203e7 	stur	x7, [sp, #32]
+  110414:	f80183e6 	stur	x6, [sp, #24]
+  110418:	f80103e3 	stur	x3, [sp, #16]
+  11041c:	f80083e2 	stur	x2, [sp, #8]
+  110420:	f80003fe 	stur	x30, [sp]
+  110424:	eb020086 	subs	x6, x4, x2
+  110428:	cb0300a7 	sub	x7, x5, x3
+  11042c:	54000264 	b.mi	110478 <loop1>  // b.first
+  110430:	eb0600e8 	subs	x8, x7, x6
+  110434:	d37ff908 	lsl	x8, x8, #1
+
+0000000000110438 <loop>:
+  110438:	eb04005f 	cmp	x2, x4
+  11043c:	540003a2 	b.cs	1104b0 <end>  // b.hs, b.nlast
+  110440:	97ffffad 	bl	1102f4 <pintarPixel>
+  110444:	eb1f011f 	cmp	x8, xzr
+  110448:	5400008b 	b.lt	110458 <else>  // b.tstop
+  11044c:	91000463 	add	x3, x3, #0x1
+  110450:	d37ff8c9 	lsl	x9, x6, #1
+  110454:	eb090108 	subs	x8, x8, x9
+
+0000000000110458 <else>:
+  110458:	eb1f011f 	cmp	x8, xzr
+  11045c:	5400008a 	b.ge	11046c <endif>  // b.tcont
+  110460:	d37ff8ea 	lsl	x10, x7, #1
+  110464:	ab0a0108 	adds	x8, x8, x10
+  110468:	91000442 	add	x2, x2, #0x1
+
+000000000011046c <endif>:
+  11046c:	17fffff3 	b	110438 <loop>
+  110470:	eb1f00df 	cmp	x6, xzr
+  110474:	540001ec 	b.gt	1104b0 <end>
+
+0000000000110478 <loop1>:
+  110478:	eb04005f 	cmp	x2, x4
+  11047c:	540001ad 	b.le	1104b0 <end>
+  110480:	97ffff9d 	bl	1102f4 <pintarPixel>
+  110484:	eb1f011f 	cmp	x8, xzr
+  110488:	5400008b 	b.lt	110498 <else1>  // b.tstop
+  11048c:	91000463 	add	x3, x3, #0x1
+  110490:	d37ff8c9 	lsl	x9, x6, #1
+  110494:	ab090108 	adds	x8, x8, x9
+
+0000000000110498 <else1>:
+  110498:	eb1f011f 	cmp	x8, xzr
+  11049c:	5400008a 	b.ge	1104ac <endif1>  // b.tcont
+  1104a0:	d37ff8ea 	lsl	x10, x7, #1
+  1104a4:	ab0a0108 	adds	x8, x8, x10
+  1104a8:	f1000442 	subs	x2, x2, #0x1
+
+00000000001104ac <endif1>:
+  1104ac:	17fffff3 	b	110478 <loop1>
+
+00000000001104b0 <end>:
+  1104b0:	f84483ed 	ldur	x13, [sp, #72]
+  1104b4:	f84403ec 	ldur	x12, [sp, #64]
+  1104b8:	f84383ea 	ldur	x10, [sp, #56]
+  1104bc:	f84303e9 	ldur	x9, [sp, #48]
+  1104c0:	f84283e8 	ldur	x8, [sp, #40]
+  1104c4:	f84203e7 	ldur	x7, [sp, #32]
+  1104c8:	f84183e6 	ldur	x6, [sp, #24]
+  1104cc:	f84103e3 	ldur	x3, [sp, #16]
+  1104d0:	f84083e2 	ldur	x2, [sp, #8]
+  1104d4:	f84003fe 	ldur	x30, [sp]
+  1104d8:	910143ff 	add	sp, sp, #0x50
+  1104dc:	d61f03c0 	br	x30
+
+00000000001104e0 <pintarTrianguloRectangulo>:
+  1104e0:	d10043ff 	sub	sp, sp, #0x10
+  1104e4:	f80083fe 	stur	x30, [sp, #8]
+  1104e8:	f80003e3 	stur	x3, [sp]
+
+00000000001104ec <loop_pintarTrianguloRectangulo>:
+  1104ec:	eb05007f 	cmp	x3, x5
+  1104f0:	5400008c 	b.gt	110500 <end_loop_pintarTrianguloRectangulo>
+  1104f4:	97ffffc1 	bl	1103f8 <dline>
+  1104f8:	91000463 	add	x3, x3, #0x1
+  1104fc:	17fffffc 	b	1104ec <loop_pintarTrianguloRectangulo>
+
+0000000000110500 <end_loop_pintarTrianguloRectangulo>:
+  110500:	f84083fe 	ldur	x30, [sp, #8]
+  110504:	f84003e3 	ldur	x3, [sp]
+  110508:	910043ff 	add	sp, sp, #0x10
+  11050c:	d61f03c0 	br	x30
+
+0000000000110510 <pintarTrianguloRectanguloDown>:
+  110510:	d10043ff 	sub	sp, sp, #0x10
+  110514:	f80083fe 	stur	x30, [sp, #8]
+  110518:	f80003e2 	stur	x2, [sp]
+
+000000000011051c <loop_pintarTrianguloRectanguloDown>:
+  11051c:	eb04005f 	cmp	x2, x4
+  110520:	5400008c 	b.gt	110530 <end_loop_pintarTrianguloRectanguloDown>
+  110524:	97ffffb5 	bl	1103f8 <dline>
+  110528:	91000442 	add	x2, x2, #0x1
+  11052c:	17fffffc 	b	11051c <loop_pintarTrianguloRectanguloDown>
+
+0000000000110530 <end_loop_pintarTrianguloRectanguloDown>:
+  110530:	f84083fe 	ldur	x30, [sp, #8]
+  110534:	f84003e2 	ldur	x2, [sp]
+  110538:	910043ff 	add	sp, sp, #0x10
+  11053c:	d61f03c0 	br	x30
+
+0000000000110540 <pintarTrianguloRectanguloDownI>:
+  110540:	d10043ff 	sub	sp, sp, #0x10
+  110544:	f80083fe 	stur	x30, [sp, #8]
+  110548:	f80003e2 	stur	x2, [sp]
+
+000000000011054c <loop_pintarTrianguloRectanguloDownI>:
+  11054c:	eb02009f 	cmp	x4, x2
+  110550:	5400008c 	b.gt	110560 <end_loop_pintarTrianguloRectanguloDownI>
+  110554:	97ffffa9 	bl	1103f8 <dline>
+  110558:	d1000442 	sub	x2, x2, #0x1
+  11055c:	17fffffc 	b	11054c <loop_pintarTrianguloRectanguloDownI>
+
+0000000000110560 <end_loop_pintarTrianguloRectanguloDownI>:
+  110560:	f84083fe 	ldur	x30, [sp, #8]
+  110564:	f84003e2 	ldur	x2, [sp]
+  110568:	910043ff 	add	sp, sp, #0x10
+  11056c:	d61f03c0 	br	x30
+
+0000000000110570 <pintarTriangulo>:
+  110570:	d10043ff 	sub	sp, sp, #0x10
+  110574:	f80083fe 	stur	x30, [sp, #8]
+  110578:	f80003e4 	stur	x4, [sp]
+  11057c:	97ffffd9 	bl	1104e0 <pintarTrianguloRectangulo>
+  110580:	cb020089 	sub	x9, x4, x2
+  110584:	cb090044 	sub	x4, x2, x9
+  110588:	97ffffd6 	bl	1104e0 <pintarTrianguloRectangulo>
+  11058c:	f84083fe 	ldur	x30, [sp, #8]
+  110590:	f84003e4 	ldur	x4, [sp]
+  110594:	910043ff 	add	sp, sp, #0x10
+  110598:	d61f03c0 	br	x30
+
+000000000011059c <pintarTrianguloDown>:
+  11059c:	d10063ff 	sub	sp, sp, #0x18
+  1105a0:	f80103fe 	stur	x30, [sp, #16]
+  1105a4:	f80083e2 	stur	x2, [sp, #8]
+  1105a8:	f80003e4 	stur	x4, [sp]
+  1105ac:	97ffffd9 	bl	110510 <pintarTrianguloRectanguloDown>
+  1105b0:	cb020082 	sub	x2, x4, x2
+  1105b4:	8b020082 	add	x2, x4, x2
+  1105b8:	d1000484 	sub	x4, x4, #0x1
+  1105bc:	97ffffe1 	bl	110540 <pintarTrianguloRectanguloDownI>
+  1105c0:	f84103fe 	ldur	x30, [sp, #16]
+  1105c4:	f84083e2 	ldur	x2, [sp, #8]
+  1105c8:	f84003e4 	ldur	x4, [sp]
+  1105cc:	910063ff 	add	sp, sp, #0x18
+  1105d0:	d61f03c0 	br	x30
+
+00000000001105d4 <circulos_horizontales>:
+  1105d4:	d10043ff 	sub	sp, sp, #0x10
+  1105d8:	f80083fe 	stur	x30, [sp, #8]
+  1105dc:	f80003e2 	stur	x2, [sp]
+
+00000000001105e0 <loop_circulos_horizontales>:
+  1105e0:	eb06005f 	cmp	x2, x6
+  1105e4:	5400008c 	b.gt	1105f4 <end_loop_circulos_horizontales>
+  1105e8:	97ffff66 	bl	110380 <pintarCirculo>
+  1105ec:	8b050042 	add	x2, x2, x5
+  1105f0:	17fffffc 	b	1105e0 <loop_circulos_horizontales>
+
+00000000001105f4 <end_loop_circulos_horizontales>:
+  1105f4:	f84083fe 	ldur	x30, [sp, #8]
+  1105f8:	f84003e2 	ldur	x2, [sp]
+  1105fc:	910043ff 	add	sp, sp, #0x10
+  110600:	d61f03c0 	br	x30
+
+0000000000110604 <circulos_verticales>:
+  110604:	d10043ff 	sub	sp, sp, #0x10
+  110608:	f80083fe 	stur	x30, [sp, #8]
+  11060c:	f80003e3 	stur	x3, [sp]
+
+0000000000110610 <loop_circulos_verticales>:
+  110610:	eb06007f 	cmp	x3, x6
+  110614:	5400008c 	b.gt	110624 <end_loop_circulos_verticales>
+  110618:	97ffff5a 	bl	110380 <pintarCirculo>
+  11061c:	8b050063 	add	x3, x3, x5
+  110620:	17fffffc 	b	110610 <loop_circulos_verticales>
+
+0000000000110624 <end_loop_circulos_verticales>:
+  110624:	f84083fe 	ldur	x30, [sp, #8]
+  110628:	f84003e3 	ldur	x3, [sp]
+  11062c:	910043ff 	add	sp, sp, #0x10
+  110630:	d61f03c0 	br	x30
+
+0000000000110634 <columnaTriangulos>:
+  110634:	d10043ff 	sub	sp, sp, #0x10
+  110638:	f80083fe 	stur	x30, [sp, #8]
+  11063c:	f80003e3 	stur	x3, [sp]
+
+0000000000110640 <loop_triangulos_verticales>:
+  110640:	eb05007f 	cmp	x3, x5
+  110644:	5400008c 	b.gt	110654 <end_loop_triangulos_verticales>
+  110648:	97ffffca 	bl	110570 <pintarTriangulo>
+  11064c:	8b060063 	add	x3, x3, x6
+  110650:	17fffffc 	b	110640 <loop_triangulos_verticales>
+
+0000000000110654 <end_loop_triangulos_verticales>:
+  110654:	f84083fe 	ldur	x30, [sp, #8]
+  110658:	f84003e3 	ldur	x3, [sp]
+  11065c:	910043ff 	add	sp, sp, #0x10
+  110660:	d61f03c0 	br	x30
+
+0000000000110664 <pintarPasto>:
+  110664:	d100c3ff 	sub	sp, sp, #0x30
+  110668:	f80283e5 	stur	x5, [sp, #40]
+  11066c:	f80203e4 	stur	x4, [sp, #32]
+  110670:	f80183e3 	stur	x3, [sp, #24]
+  110674:	f80103e2 	stur	x2, [sp, #16]
+  110678:	f80083e1 	stur	x1, [sp, #8]
+  11067c:	f80003fe 	stur	x30, [sp]
+  110680:	d2800089 	mov	x9, #0x4                   	// #4
+
+0000000000110684 <pintarPasto1>:
+  110684:	b40001e9 	cbz	x9, 1106c0 <end_pasto>
+  110688:	d1000529 	sub	x9, x9, #0x1
+  11068c:	58ffe141 	ldr	x1, 1102b4 <colorArbusto>
+  110690:	d2800002 	mov	x2, #0x0                   	// #0
+  110694:	d2801f43 	mov	x3, #0xfa                  	// #250
+  110698:	d28003c4 	mov	x4, #0x1e                  	// #30
+  11069c:	d2802585 	mov	x5, #0x12c                 	// #300
+  1106a0:	97ffffbf 	bl	11059c <pintarTrianguloDown>
+
+00000000001106a4 <lp>:
+  1106a4:	f10a005f 	cmp	x2, #0x280
+  1106a8:	540000ac 	b.gt	1106bc <endlp>
+  1106ac:	91010442 	add	x2, x2, #0x41
+  1106b0:	91007844 	add	x4, x2, #0x1e
+  1106b4:	97ffffba 	bl	11059c <pintarTrianguloDown>
+  1106b8:	17fffffb 	b	1106a4 <lp>
+
+00000000001106bc <endlp>:
+  1106bc:	17fffff2 	b	110684 <pintarPasto1>
+
+00000000001106c0 <end_pasto>:
+  1106c0:	f84283e5 	ldur	x5, [sp, #40]
+  1106c4:	f84203e4 	ldur	x4, [sp, #32]
+  1106c8:	f84183e3 	ldur	x3, [sp, #24]
+  1106cc:	f84103e2 	ldur	x2, [sp, #16]
+  1106d0:	f84083e1 	ldur	x1, [sp, #8]
+  1106d4:	f84003fe 	ldur	x30, [sp]
+  1106d8:	9100c3ff 	add	sp, sp, #0x30
+  1106dc:	d61f03c0 	br	x30
+
+00000000001106e0 <dir_frameBuffer>:
+	...
+
+00000000001106e8 <main>:
+  1106e8:	aa0003f4 	mov	x20, x0
+  1106ec:	10ffffa1 	adr	x1, 1106e0 <dir_frameBuffer>
+  1106f0:	f9000020 	str	x0, [x1]
+  1106f4:	58ffdf81 	ldr	x1, 1102e4 <colorCielo4>
+  1106f8:	58ffdd78 	ldr	x24, 1102a4 <degradado_r1>
+  1106fc:	d2800002 	mov	x2, #0x0                   	// #0
+  110700:	d2800003 	mov	x3, #0x0                   	// #0
+  110704:	d2805004 	mov	x4, #0x280                 	// #640
+  110708:	d2801f45 	mov	x5, #0xfa                  	// #250
+  11070c:	97ffff10 	bl	11034c <pintarRectangulo>
+  110710:	58ffdd61 	ldr	x1, 1102bc <colorTierraFondo>
+  110714:	58ffdcf8 	ldr	x24, 1102b0 <no_degradado>
+  110718:	d2800002 	mov	x2, #0x0                   	// #0
+  11071c:	d2801f43 	mov	x3, #0xfa                  	// #250
+  110720:	d2805004 	mov	x4, #0x280                 	// #640
+  110724:	d2803c05 	mov	x5, #0x1e0                 	// #480
+  110728:	97ffff09 	bl	11034c <pintarRectangulo>
+  11072c:	97ffffce 	bl	110664 <pintarPasto>
+
+0000000000110730 <pino>:
+  110730:	58ffdd01 	ldr	x1, 1102d0 <colorPasto>
+  110734:	d2801902 	mov	x2, #0xc8                  	// #200
+  110738:	d2801903 	mov	x3, #0xc8                  	// #200
+  11073c:	91007844 	add	x4, x2, #0x1e
+  110740:	d2800c85 	mov	x5, #0x64                  	// #100
+  110744:	97ffff02 	bl	11034c <pintarRectangulo>
+  110748:	d2800281 	mov	x1, #0x14                  	// #20
+  11074c:	d28001e9 	mov	x9, #0xf                   	// #15
+  110750:	8b090082 	add	x2, x4, x9
+  110754:	d28000a6 	mov	x6, #0x5                   	// #5
+  110758:	97ffffb7 	bl	110634 <columnaTriangulos>
+  11075c:	58ffdc61 	ldr	x1, 1102e8 <colorNubes>
+  110760:	d2800b42 	mov	x2, #0x5a                  	// #90
+  110764:	d2800b43 	mov	x3, #0x5a                  	// #90
+  110768:	d2800144 	mov	x4, #0xa                   	// #10
+  11076c:	d28001e5 	mov	x5, #0xf                   	// #15
+  110770:	d2801406 	mov	x6, #0xa0                  	// #160
+  110774:	97ffff98 	bl	1105d4 <circulos_horizontales>
+  110778:	58ffdb81 	ldr	x1, 1102e8 <colorNubes>
+  11077c:	d2800c22 	mov	x2, #0x61                  	// #97
+  110780:	d2800a03 	mov	x3, #0x50                  	// #80
+  110784:	d2800144 	mov	x4, #0xa                   	// #10
+  110788:	d28001e5 	mov	x5, #0xf                   	// #15
+  11078c:	d28012c6 	mov	x6, #0x96                  	// #150
+  110790:	97ffff91 	bl	1105d4 <circulos_horizontales>
+  110794:	d2a7e409 	mov	x9, #0x3f200000            	// #1059061760
+  110798:	b900013f 	str	wzr, [x9]
+
+000000000011079c <InfLoop>:
+  11079c:	b940352d 	ldr	w13, [x9, #52]
+  1107a0:	b940352e 	ldr	w14, [x9, #52]
+  1107a4:	121f01ad 	and	w13, w13, #0x2
+  1107a8:	121b01ce 	and	w14, w14, #0x20
+  1107ac:	17fffffc 	b	11079c <InfLoop>
+
+00000000001107b0 <degradado_r1>:
+  1107b0:	00010000 	.inst	0x00010000 ; undefined
+
+00000000001107b4 <degradado_g1>:
+  1107b4:	00000100 	udf	#256
+
+00000000001107b8 <degradado_b1>:
+  1107b8:	00000001 	udf	#1
+
+00000000001107bc <no_degradado>:
+  1107bc:	00000000 	udf	#0
+
+00000000001107c0 <colorArbusto>:
+  1107c0:	006ead6a 	.inst	0x006ead6a ; undefined
+
+00000000001107c4 <colorArbustoBorde>:
+  1107c4:	0051854d 	.inst	0x0051854d ; undefined
+
+00000000001107c8 <colorTierraFondo>:
+  1107c8:	00653830 	.inst	0x00653830 ; undefined
+
+00000000001107cc <colorTierraMedio>:
+  1107cc:	007c3b1a 	.inst	0x007c3b1a ; undefined
+
+00000000001107d0 <colorPeloCavernicola>:
+  1107d0:	0066280a 	.inst	0x0066280a ; undefined
+
+00000000001107d4 <colorPielCavernicola>:
+  1107d4:	000e6b8b 	.inst	0x000e6b8b ; undefined
+
+00000000001107d8 <colorRopaCavernicola>:
+  1107d8:	00ff8000 	.inst	0x00ff8000 ; undefined
+
+00000000001107dc <colorRopaNinja>:
+  1107dc:	00ff0000 	.inst	0x00ff0000 ; undefined
+
+00000000001107e0 <colorRopaNinja2>:
+  1107e0:	00e0e0e0 	.inst	0x00e0e0e0 ; undefined
+
+00000000001107e4 <colorCielo>:
+  1107e4:	0066ffff 	.inst	0x0066ffff ; undefined
+
+00000000001107e8 <colorCielo2>:
+  1107e8:	003399ff 	.inst	0x003399ff ; NYI
+
+00000000001107ec <colorCielo3>:
+  1107ec:	000080ff 	udf	#33023
+
+00000000001107f0 <colorCielo4>:
+  1107f0:	00008bab 	udf	#35755
+
+00000000001107f4 <colorNubes>:
+  1107f4:	00ffffff 	.inst	0x00ffffff ; undefined
+
+00000000001107f8 <colorNubes2>:
+  1107f8:	00e0e0e0 	.inst	0x00e0e0e0 ; undefined
+
+00000000001107fc <colorSol>:
+  1107fc:	00ffff00 	.inst	0x00ffff00 ; undefined
+
+0000000000110800 <degradado_r1>:
+  110800:	00010000 	.inst	0x00010000 ; undefined
+
+0000000000110804 <degradado_g1>:
+  110804:	00000100 	udf	#256
+
+0000000000110808 <degradado_b1>:
+  110808:	00000001 	udf	#1
+
+000000000011080c <no_degradado>:
+  11080c:	00000000 	udf	#0
+
+0000000000110810 <colorArbusto>:
+  110810:	006ead6a 	.inst	0x006ead6a ; undefined
+
+0000000000110814 <colorArbustoBorde>:
+  110814:	0051854d 	.inst	0x0051854d ; undefined
+
+0000000000110818 <colorPasto>:
+  110818:	006ead6a 	.inst	0x006ead6a ; undefined
+
+000000000011081c <colorTierraFondo>:
+  11081c:	00653830 	.inst	0x00653830 ; undefined
+
+0000000000110820 <colorTierraMedio>:
+  110820:	007c3b1a 	.inst	0x007c3b1a ; undefined
+
+0000000000110824 <colorPeloCavernicola>:
+  110824:	0066280a 	.inst	0x0066280a ; undefined
+
+0000000000110828 <colorPielCavernicola>:
+  110828:	000e6b8b 	.inst	0x000e6b8b ; undefined
+
+000000000011082c <colorRopaCavernicola>:
+  11082c:	00ff8000 	.inst	0x00ff8000 ; undefined
+
+0000000000110830 <colorRopaNinja>:
+  110830:	00ff0000 	.inst	0x00ff0000 ; undefined
+
+0000000000110834 <colorRopaNinja2>:
+  110834:	00e0e0e0 	.inst	0x00e0e0e0 ; undefined
+
+0000000000110838 <colorCielo>:
+  110838:	0066ffff 	.inst	0x0066ffff ; undefined
+
+000000000011083c <colorCielo2>:
+  11083c:	003399ff 	.inst	0x003399ff ; NYI
+
+0000000000110840 <colorCielo3>:
+  110840:	000080ff 	udf	#33023
+
+0000000000110844 <colorCielo4>:
+  110844:	00008bab 	udf	#35755
+
+0000000000110848 <colorNubes>:
+  110848:	00ffffff 	.inst	0x00ffffff ; undefined
+
+000000000011084c <colorNubes2>:
+  11084c:	00e0e0e0 	.inst	0x00e0e0e0 ; undefined
+
+0000000000110850 <colorSol>:
+  110850:	00ffff00 	.inst	0x00ffff00 ; undefined
+
+0000000000110854 <pintarPixel>:
+  110854:	f10a005f 	cmp	x2, #0x280
+  110858:	54000102 	b.cs	110878 <return_pintarPixel>  // b.hs, b.nlast
+  11085c:	f107807f 	cmp	x3, #0x1e0
+  110860:	540000c2 	b.cs	110878 <return_pintarPixel>  // b.hs, b.nlast
+  110864:	d2805009 	mov	x9, #0x280                 	// #640
+  110868:	9b037d29 	mul	x9, x9, x3
+  11086c:	8b020129 	add	x9, x9, x2
+  110870:	d37ef529 	lsl	x9, x9, #2
+  110874:	b8296801 	str	w1, [x0, x9]
+
+0000000000110878 <return_pintarPixel>:
+  110878:	d61f03c0 	br	x30
+
+000000000011087c <pintarLineaHorizontal>:
+  11087c:	d10043ff 	sub	sp, sp, #0x10
+  110880:	f80083fe 	stur	x30, [sp, #8]
+  110884:	f80003e2 	stur	x2, [sp]
+
+0000000000110888 <loop_pintarLineaHorizontal>:
+  110888:	eb04005f 	cmp	x2, x4
+  11088c:	5400008c 	b.gt	11089c <end_loop_pintarLineaHorizontal>
+  110890:	97fffff1 	bl	110854 <pintarPixel>
+  110894:	91000442 	add	x2, x2, #0x1
+  110898:	17fffffc 	b	110888 <loop_pintarLineaHorizontal>
+
+000000000011089c <end_loop_pintarLineaHorizontal>:
+  11089c:	f84083fe 	ldur	x30, [sp, #8]
+  1108a0:	f84003e2 	ldur	x2, [sp]
+  1108a4:	910043ff 	add	sp, sp, #0x10
+  1108a8:	d61f03c0 	br	x30
+
+00000000001108ac <pintarRectangulo>:
+  1108ac:	d10043ff 	sub	sp, sp, #0x10
+  1108b0:	f80083fe 	stur	x30, [sp, #8]
+  1108b4:	f80003e3 	stur	x3, [sp]
+
+00000000001108b8 <loop_pintarRectangulo>:
+  1108b8:	eb05007f 	cmp	x3, x5
+  1108bc:	540000ac 	b.gt	1108d0 <end_loop_pintarRectangulo>
+  1108c0:	97ffffef 	bl	11087c <pintarLineaHorizontal>
+  1108c4:	8b180021 	add	x1, x1, x24
+  1108c8:	91000463 	add	x3, x3, #0x1
+  1108cc:	17fffffb 	b	1108b8 <loop_pintarRectangulo>
+
+00000000001108d0 <end_loop_pintarRectangulo>:
+  1108d0:	f84083fe 	ldur	x30, [sp, #8]
+  1108d4:	f84003e3 	ldur	x3, [sp]
+  1108d8:	910043ff 	add	sp, sp, #0x10
+  1108dc:	d61f03c0 	br	x30
+
+00000000001108e0 <pintarCirculo>:
+  1108e0:	d10023ff 	sub	sp, sp, #0x8
+  1108e4:	f80003fe 	stur	x30, [sp]
+  1108e8:	aa0203ef 	mov	x15, x2
+  1108ec:	aa0303f0 	mov	x16, x3
+  1108f0:	8b04004a 	add	x10, x2, x4
+  1108f4:	8b04006b 	add	x11, x3, x4
+  1108f8:	9b047c8c 	mul	x12, x4, x4
+  1108fc:	cb040042 	sub	x2, x2, x4
+
+0000000000110900 <loop0_pintarCirculo>:
+  110900:	eb0a005f 	cmp	x2, x10
+  110904:	5400020c 	b.gt	110944 <end_loop0_pintarCirculo>
+  110908:	cb040163 	sub	x3, x11, x4
+  11090c:	cb040063 	sub	x3, x3, x4
+
+0000000000110910 <loop1_pintarCirculo>:
+  110910:	eb0b007f 	cmp	x3, x11
+  110914:	5400014c 	b.gt	11093c <end_loop1_pintarCirculo>
+  110918:	cb0f004d 	sub	x13, x2, x15
+  11091c:	9b2d7dad 	smull	x13, w13, w13
+  110920:	cb10006e 	sub	x14, x3, x16
+  110924:	9b2e35cd 	smaddl	x13, w14, w14, x13
+  110928:	eb0c01bf 	cmp	x13, x12
+  11092c:	5400004c 	b.gt	110934 <fi_pintarCirculo>
+  110930:	97ffffc9 	bl	110854 <pintarPixel>
+
+0000000000110934 <fi_pintarCirculo>:
+  110934:	91000463 	add	x3, x3, #0x1
+  110938:	17fffff6 	b	110910 <loop1_pintarCirculo>
+
+000000000011093c <end_loop1_pintarCirculo>:
+  11093c:	91000442 	add	x2, x2, #0x1
+  110940:	17fffff0 	b	110900 <loop0_pintarCirculo>
+
+0000000000110944 <end_loop0_pintarCirculo>:
+  110944:	aa0f03e2 	mov	x2, x15
+  110948:	aa1003e3 	mov	x3, x16
+  11094c:	f84003fe 	ldur	x30, [sp]
+  110950:	910023ff 	add	sp, sp, #0x8
+  110954:	d61f03c0 	br	x30
+
+0000000000110958 <dline>:
+  110958:	d10143ff 	sub	sp, sp, #0x50
+  11095c:	f80483ed 	stur	x13, [sp, #72]
+  110960:	f80403ec 	stur	x12, [sp, #64]
+  110964:	f80383ea 	stur	x10, [sp, #56]
+  110968:	f80303e9 	stur	x9, [sp, #48]
+  11096c:	f80283e8 	stur	x8, [sp, #40]
+  110970:	f80203e7 	stur	x7, [sp, #32]
+  110974:	f80183e6 	stur	x6, [sp, #24]
+  110978:	f80103e3 	stur	x3, [sp, #16]
+  11097c:	f80083e2 	stur	x2, [sp, #8]
+  110980:	f80003fe 	stur	x30, [sp]
+  110984:	eb020086 	subs	x6, x4, x2
+  110988:	cb0300a7 	sub	x7, x5, x3
+  11098c:	54000264 	b.mi	1109d8 <loop1>  // b.first
+  110990:	eb0600e8 	subs	x8, x7, x6
+  110994:	d37ff908 	lsl	x8, x8, #1
+
+0000000000110998 <loop>:
+  110998:	eb04005f 	cmp	x2, x4
+  11099c:	540003a2 	b.cs	110a10 <end>  // b.hs, b.nlast
+  1109a0:	97ffffad 	bl	110854 <pintarPixel>
+  1109a4:	eb1f011f 	cmp	x8, xzr
+  1109a8:	5400008b 	b.lt	1109b8 <else>  // b.tstop
+  1109ac:	91000463 	add	x3, x3, #0x1
+  1109b0:	d37ff8c9 	lsl	x9, x6, #1
+  1109b4:	eb090108 	subs	x8, x8, x9
+
+00000000001109b8 <else>:
+  1109b8:	eb1f011f 	cmp	x8, xzr
+  1109bc:	5400008a 	b.ge	1109cc <endif>  // b.tcont
+  1109c0:	d37ff8ea 	lsl	x10, x7, #1
+  1109c4:	ab0a0108 	adds	x8, x8, x10
+  1109c8:	91000442 	add	x2, x2, #0x1
+
+00000000001109cc <endif>:
+  1109cc:	17fffff3 	b	110998 <loop>
+  1109d0:	eb1f00df 	cmp	x6, xzr
+  1109d4:	540001ec 	b.gt	110a10 <end>
+
+00000000001109d8 <loop1>:
+  1109d8:	eb04005f 	cmp	x2, x4
+  1109dc:	540001ad 	b.le	110a10 <end>
+  1109e0:	97ffff9d 	bl	110854 <pintarPixel>
+  1109e4:	eb1f011f 	cmp	x8, xzr
+  1109e8:	5400008b 	b.lt	1109f8 <else1>  // b.tstop
+  1109ec:	91000463 	add	x3, x3, #0x1
+  1109f0:	d37ff8c9 	lsl	x9, x6, #1
+  1109f4:	ab090108 	adds	x8, x8, x9
+
+00000000001109f8 <else1>:
+  1109f8:	eb1f011f 	cmp	x8, xzr
+  1109fc:	5400008a 	b.ge	110a0c <endif1>  // b.tcont
+  110a00:	d37ff8ea 	lsl	x10, x7, #1
+  110a04:	ab0a0108 	adds	x8, x8, x10
+  110a08:	f1000442 	subs	x2, x2, #0x1
+
+0000000000110a0c <endif1>:
+  110a0c:	17fffff3 	b	1109d8 <loop1>
+
+0000000000110a10 <end>:
+  110a10:	f84483ed 	ldur	x13, [sp, #72]
+  110a14:	f84403ec 	ldur	x12, [sp, #64]
+  110a18:	f84383ea 	ldur	x10, [sp, #56]
+  110a1c:	f84303e9 	ldur	x9, [sp, #48]
+  110a20:	f84283e8 	ldur	x8, [sp, #40]
+  110a24:	f84203e7 	ldur	x7, [sp, #32]
+  110a28:	f84183e6 	ldur	x6, [sp, #24]
+  110a2c:	f84103e3 	ldur	x3, [sp, #16]
+  110a30:	f84083e2 	ldur	x2, [sp, #8]
+  110a34:	f84003fe 	ldur	x30, [sp]
+  110a38:	910143ff 	add	sp, sp, #0x50
+  110a3c:	d61f03c0 	br	x30
+
+0000000000110a40 <pintarTrianguloRectangulo>:
+  110a40:	d10043ff 	sub	sp, sp, #0x10
+  110a44:	f80083fe 	stur	x30, [sp, #8]
+  110a48:	f80003e3 	stur	x3, [sp]
+
+0000000000110a4c <loop_pintarTrianguloRectangulo>:
+  110a4c:	eb05007f 	cmp	x3, x5
+  110a50:	5400008c 	b.gt	110a60 <end_loop_pintarTrianguloRectangulo>
+  110a54:	97ffffc1 	bl	110958 <dline>
+  110a58:	91000463 	add	x3, x3, #0x1
+  110a5c:	17fffffc 	b	110a4c <loop_pintarTrianguloRectangulo>
+
+0000000000110a60 <end_loop_pintarTrianguloRectangulo>:
+  110a60:	f84083fe 	ldur	x30, [sp, #8]
+  110a64:	f84003e3 	ldur	x3, [sp]
+  110a68:	910043ff 	add	sp, sp, #0x10
+  110a6c:	d61f03c0 	br	x30
+
+0000000000110a70 <pintarTrianguloRectanguloDown>:
+  110a70:	d10043ff 	sub	sp, sp, #0x10
+  110a74:	f80083fe 	stur	x30, [sp, #8]
+  110a78:	f80003e2 	stur	x2, [sp]
+
+0000000000110a7c <loop_pintarTrianguloRectanguloDown>:
+  110a7c:	eb04005f 	cmp	x2, x4
+  110a80:	5400008c 	b.gt	110a90 <end_loop_pintarTrianguloRectanguloDown>
+  110a84:	97ffffb5 	bl	110958 <dline>
+  110a88:	91000442 	add	x2, x2, #0x1
+  110a8c:	17fffffc 	b	110a7c <loop_pintarTrianguloRectanguloDown>
+
+0000000000110a90 <end_loop_pintarTrianguloRectanguloDown>:
+  110a90:	f84083fe 	ldur	x30, [sp, #8]
+  110a94:	f84003e2 	ldur	x2, [sp]
+  110a98:	910043ff 	add	sp, sp, #0x10
+  110a9c:	d61f03c0 	br	x30
+
+0000000000110aa0 <pintarTrianguloRectanguloDownI>:
+  110aa0:	d10043ff 	sub	sp, sp, #0x10
+  110aa4:	f80083fe 	stur	x30, [sp, #8]
+  110aa8:	f80003e2 	stur	x2, [sp]
+
+0000000000110aac <loop_pintarTrianguloRectanguloDownI>:
+  110aac:	eb02009f 	cmp	x4, x2
+  110ab0:	5400008c 	b.gt	110ac0 <end_loop_pintarTrianguloRectanguloDownI>
+  110ab4:	97ffffa9 	bl	110958 <dline>
+  110ab8:	d1000442 	sub	x2, x2, #0x1
+  110abc:	17fffffc 	b	110aac <loop_pintarTrianguloRectanguloDownI>
+
+0000000000110ac0 <end_loop_pintarTrianguloRectanguloDownI>:
+  110ac0:	f84083fe 	ldur	x30, [sp, #8]
+  110ac4:	f84003e2 	ldur	x2, [sp]
+  110ac8:	910043ff 	add	sp, sp, #0x10
+  110acc:	d61f03c0 	br	x30
+
+0000000000110ad0 <pintarTriangulo>:
+  110ad0:	d10043ff 	sub	sp, sp, #0x10
+  110ad4:	f80083fe 	stur	x30, [sp, #8]
+  110ad8:	f80003e4 	stur	x4, [sp]
+  110adc:	97ffffd9 	bl	110a40 <pintarTrianguloRectangulo>
+  110ae0:	cb020089 	sub	x9, x4, x2
+  110ae4:	cb090044 	sub	x4, x2, x9
+  110ae8:	97ffffd6 	bl	110a40 <pintarTrianguloRectangulo>
+  110aec:	f84083fe 	ldur	x30, [sp, #8]
+  110af0:	f84003e4 	ldur	x4, [sp]
+  110af4:	910043ff 	add	sp, sp, #0x10
+  110af8:	d61f03c0 	br	x30
+
+0000000000110afc <pintarTrianguloDown>:
+  110afc:	d10063ff 	sub	sp, sp, #0x18
+  110b00:	f80103fe 	stur	x30, [sp, #16]
+  110b04:	f80083e2 	stur	x2, [sp, #8]
+  110b08:	f80003e4 	stur	x4, [sp]
+  110b0c:	97ffffd9 	bl	110a70 <pintarTrianguloRectanguloDown>
+  110b10:	cb020082 	sub	x2, x4, x2
+  110b14:	8b020082 	add	x2, x4, x2
+  110b18:	d1000484 	sub	x4, x4, #0x1
+  110b1c:	97ffffe1 	bl	110aa0 <pintarTrianguloRectanguloDownI>
+  110b20:	f84103fe 	ldur	x30, [sp, #16]
+  110b24:	f84083e2 	ldur	x2, [sp, #8]
+  110b28:	f84003e4 	ldur	x4, [sp]
+  110b2c:	910063ff 	add	sp, sp, #0x18
+  110b30:	d61f03c0 	br	x30
+
+0000000000110b34 <circulos_horizontales>:
+  110b34:	d10043ff 	sub	sp, sp, #0x10
+  110b38:	f80083fe 	stur	x30, [sp, #8]
+  110b3c:	f80003e2 	stur	x2, [sp]
+
+0000000000110b40 <loop_circulos_horizontales>:
+  110b40:	eb06005f 	cmp	x2, x6
+  110b44:	5400008c 	b.gt	110b54 <end_loop_circulos_horizontales>
+  110b48:	97ffff66 	bl	1108e0 <pintarCirculo>
+  110b4c:	8b050042 	add	x2, x2, x5
+  110b50:	17fffffc 	b	110b40 <loop_circulos_horizontales>
+
+0000000000110b54 <end_loop_circulos_horizontales>:
+  110b54:	f84083fe 	ldur	x30, [sp, #8]
+  110b58:	f84003e2 	ldur	x2, [sp]
+  110b5c:	910043ff 	add	sp, sp, #0x10
+  110b60:	d61f03c0 	br	x30
+
+0000000000110b64 <circulos_verticales>:
+  110b64:	d10043ff 	sub	sp, sp, #0x10
+  110b68:	f80083fe 	stur	x30, [sp, #8]
+  110b6c:	f80003e3 	stur	x3, [sp]
+
+0000000000110b70 <loop_circulos_verticales>:
+  110b70:	eb06007f 	cmp	x3, x6
+  110b74:	5400008c 	b.gt	110b84 <end_loop_circulos_verticales>
+  110b78:	97ffff5a 	bl	1108e0 <pintarCirculo>
+  110b7c:	8b050063 	add	x3, x3, x5
+  110b80:	17fffffc 	b	110b70 <loop_circulos_verticales>
+
+0000000000110b84 <end_loop_circulos_verticales>:
+  110b84:	f84083fe 	ldur	x30, [sp, #8]
+  110b88:	f84003e3 	ldur	x3, [sp]
+  110b8c:	910043ff 	add	sp, sp, #0x10
+  110b90:	d61f03c0 	br	x30
+
+0000000000110b94 <columnaTriangulos>:
+  110b94:	d10043ff 	sub	sp, sp, #0x10
+  110b98:	f80083fe 	stur	x30, [sp, #8]
+  110b9c:	f80003e3 	stur	x3, [sp]
+
+0000000000110ba0 <loop_triangulos_verticales>:
+  110ba0:	eb05007f 	cmp	x3, x5
+  110ba4:	5400008c 	b.gt	110bb4 <end_loop_triangulos_verticales>
+  110ba8:	97ffffca 	bl	110ad0 <pintarTriangulo>
+  110bac:	8b060063 	add	x3, x3, x6
+  110bb0:	17fffffc 	b	110ba0 <loop_triangulos_verticales>
+
+0000000000110bb4 <end_loop_triangulos_verticales>:
+  110bb4:	f84083fe 	ldur	x30, [sp, #8]
+  110bb8:	f84003e3 	ldur	x3, [sp]
+  110bbc:	910043ff 	add	sp, sp, #0x10
+  110bc0:	d61f03c0 	br	x30
+
+0000000000110bc4 <degradado_r1>:
+  110bc4:	00010000 	.inst	0x00010000 ; undefined
+
+0000000000110bc8 <degradado_g1>:
+  110bc8:	00000100 	udf	#256
+
+0000000000110bcc <degradado_b1>:
+  110bcc:	00000001 	udf	#1
+
+0000000000110bd0 <no_degradado>:
+  110bd0:	00000000 	udf	#0
+
+0000000000110bd4 <colorArbusto>:
+  110bd4:	006ead6a 	.inst	0x006ead6a ; undefined
+
+0000000000110bd8 <colorArbustoBorde>:
+  110bd8:	0051854d 	.inst	0x0051854d ; undefined
+
+0000000000110bdc <colorTierraFondo>:
+  110bdc:	00653830 	.inst	0x00653830 ; undefined
+
+0000000000110be0 <colorTierraMedio>:
+  110be0:	007c3b1a 	.inst	0x007c3b1a ; undefined
+
+0000000000110be4 <colorPeloCavernicola>:
+  110be4:	0066280a 	.inst	0x0066280a ; undefined
+
+0000000000110be8 <colorPielCavernicola>:
+  110be8:	000e6b8b 	.inst	0x000e6b8b ; undefined
+
+0000000000110bec <colorRopaCavernicola>:
+  110bec:	00ff8000 	.inst	0x00ff8000 ; undefined
+
+0000000000110bf0 <colorPasto>:
+  110bf0:	00ff0000 	.inst	0x00ff0000 ; undefined
+
+0000000000110bf4 <colorRopaNinja2>:
+  110bf4:	00e0e0e0 	.inst	0x00e0e0e0 ; undefined
+
+0000000000110bf8 <colorCielo>:
+  110bf8:	0066ffff 	.inst	0x0066ffff ; undefined
+
+0000000000110bfc <colorCielo2>:
+  110bfc:	003399ff 	.inst	0x003399ff ; NYI
+
+0000000000110c00 <colorCielo3>:
+  110c00:	000080ff 	udf	#33023
+
+0000000000110c04 <colorCielo4>:
+  110c04:	00008bab 	udf	#35755
+
+0000000000110c08 <colorNubes>:
+  110c08:	00ffffff 	.inst	0x00ffffff ; undefined
+
+0000000000110c0c <colorNubes2>:
+  110c0c:	00e0e0e0 	.inst	0x00e0e0e0 ; undefined
+
+0000000000110c10 <colorSol>:
+  110c10:	00ffff00 	.inst	0x00ffff00 ; undefined
+
+0000000000110c14 <pintarPixel>:
+  110c14:	f10a005f 	cmp	x2, #0x280
+  110c18:	54000102 	b.cs	110c38 <return_pintarPixel>  // b.hs, b.nlast
+  110c1c:	f107807f 	cmp	x3, #0x1e0
+  110c20:	540000c2 	b.cs	110c38 <return_pintarPixel>  // b.hs, b.nlast
+  110c24:	d2805009 	mov	x9, #0x280                 	// #640
+  110c28:	9b037d29 	mul	x9, x9, x3
+  110c2c:	8b020129 	add	x9, x9, x2
+  110c30:	d37ef529 	lsl	x9, x9, #2
+  110c34:	b8296801 	str	w1, [x0, x9]
+
+0000000000110c38 <return_pintarPixel>:
+  110c38:	d61f03c0 	br	x30
+
+0000000000110c3c <pintarLineaHorizontal>:
+  110c3c:	d10043ff 	sub	sp, sp, #0x10
+  110c40:	f80083fe 	stur	x30, [sp, #8]
+  110c44:	f80003e2 	stur	x2, [sp]
+
+0000000000110c48 <loop_pintarLineaHorizontal>:
+  110c48:	eb04005f 	cmp	x2, x4
+  110c4c:	5400008c 	b.gt	110c5c <end_loop_pintarLineaHorizontal>
+  110c50:	97fffff1 	bl	110c14 <pintarPixel>
+  110c54:	91000442 	add	x2, x2, #0x1
+  110c58:	17fffffc 	b	110c48 <loop_pintarLineaHorizontal>
+
+0000000000110c5c <end_loop_pintarLineaHorizontal>:
+  110c5c:	f84083fe 	ldur	x30, [sp, #8]
+  110c60:	f84003e2 	ldur	x2, [sp]
+  110c64:	910043ff 	add	sp, sp, #0x10
+  110c68:	d61f03c0 	br	x30
+
+0000000000110c6c <pintarRectangulo>:
+  110c6c:	d10043ff 	sub	sp, sp, #0x10
+  110c70:	f80083fe 	stur	x30, [sp, #8]
+  110c74:	f80003e3 	stur	x3, [sp]
+
+0000000000110c78 <loop_pintarRectangulo>:
+  110c78:	eb05007f 	cmp	x3, x5
+  110c7c:	540000ac 	b.gt	110c90 <end_loop_pintarRectangulo>
+  110c80:	97ffffef 	bl	110c3c <pintarLineaHorizontal>
+  110c84:	8b180021 	add	x1, x1, x24
+  110c88:	91000463 	add	x3, x3, #0x1
+  110c8c:	17fffffb 	b	110c78 <loop_pintarRectangulo>
+
+0000000000110c90 <end_loop_pintarRectangulo>:
+  110c90:	f84083fe 	ldur	x30, [sp, #8]
+  110c94:	f84003e3 	ldur	x3, [sp]
+  110c98:	910043ff 	add	sp, sp, #0x10
+  110c9c:	d61f03c0 	br	x30
+
+0000000000110ca0 <pintarCirculo>:
+  110ca0:	d10023ff 	sub	sp, sp, #0x8
+  110ca4:	f80003fe 	stur	x30, [sp]
+  110ca8:	aa0203ef 	mov	x15, x2
+  110cac:	aa0303f0 	mov	x16, x3
+  110cb0:	8b04004a 	add	x10, x2, x4
+  110cb4:	8b04006b 	add	x11, x3, x4
+  110cb8:	9b047c8c 	mul	x12, x4, x4
+  110cbc:	cb040042 	sub	x2, x2, x4
+
+0000000000110cc0 <loop0_pintarCirculo>:
+  110cc0:	eb0a005f 	cmp	x2, x10
+  110cc4:	5400020c 	b.gt	110d04 <end_loop0_pintarCirculo>
+  110cc8:	cb040163 	sub	x3, x11, x4
+  110ccc:	cb040063 	sub	x3, x3, x4
+
+0000000000110cd0 <loop1_pintarCirculo>:
+  110cd0:	eb0b007f 	cmp	x3, x11
+  110cd4:	5400014c 	b.gt	110cfc <end_loop1_pintarCirculo>
+  110cd8:	cb0f004d 	sub	x13, x2, x15
+  110cdc:	9b2d7dad 	smull	x13, w13, w13
+  110ce0:	cb10006e 	sub	x14, x3, x16
+  110ce4:	9b2e35cd 	smaddl	x13, w14, w14, x13
+  110ce8:	eb0c01bf 	cmp	x13, x12
+  110cec:	5400004c 	b.gt	110cf4 <fi_pintarCirculo>
+  110cf0:	97ffffc9 	bl	110c14 <pintarPixel>
+
+0000000000110cf4 <fi_pintarCirculo>:
+  110cf4:	91000463 	add	x3, x3, #0x1
+  110cf8:	17fffff6 	b	110cd0 <loop1_pintarCirculo>
+
+0000000000110cfc <end_loop1_pintarCirculo>:
+  110cfc:	91000442 	add	x2, x2, #0x1
+  110d00:	17fffff0 	b	110cc0 <loop0_pintarCirculo>
+
+0000000000110d04 <end_loop0_pintarCirculo>:
+  110d04:	aa0f03e2 	mov	x2, x15
+  110d08:	aa1003e3 	mov	x3, x16
+  110d0c:	f84003fe 	ldur	x30, [sp]
+  110d10:	910023ff 	add	sp, sp, #0x8
+  110d14:	d61f03c0 	br	x30
+
+0000000000110d18 <dline>:
+  110d18:	d10143ff 	sub	sp, sp, #0x50
+  110d1c:	f80483ed 	stur	x13, [sp, #72]
+  110d20:	f80403ec 	stur	x12, [sp, #64]
+  110d24:	f80383ea 	stur	x10, [sp, #56]
+  110d28:	f80303e9 	stur	x9, [sp, #48]
+  110d2c:	f80283e8 	stur	x8, [sp, #40]
+  110d30:	f80203e7 	stur	x7, [sp, #32]
+  110d34:	f80183e6 	stur	x6, [sp, #24]
+  110d38:	f80103e3 	stur	x3, [sp, #16]
+  110d3c:	f80083e2 	stur	x2, [sp, #8]
+  110d40:	f80003fe 	stur	x30, [sp]
+  110d44:	eb020086 	subs	x6, x4, x2
+  110d48:	cb0300a7 	sub	x7, x5, x3
+  110d4c:	54000264 	b.mi	110d98 <loop1>  // b.first
+  110d50:	eb0600e8 	subs	x8, x7, x6
+  110d54:	d37ff908 	lsl	x8, x8, #1
+
+0000000000110d58 <loop>:
+  110d58:	eb04005f 	cmp	x2, x4
+  110d5c:	540003a2 	b.cs	110dd0 <end>  // b.hs, b.nlast
+  110d60:	97ffffad 	bl	110c14 <pintarPixel>
+  110d64:	eb1f011f 	cmp	x8, xzr
+  110d68:	5400008b 	b.lt	110d78 <else>  // b.tstop
+  110d6c:	91000463 	add	x3, x3, #0x1
+  110d70:	d37ff8c9 	lsl	x9, x6, #1
+  110d74:	eb090108 	subs	x8, x8, x9
+
+0000000000110d78 <else>:
+  110d78:	eb1f011f 	cmp	x8, xzr
+  110d7c:	5400008a 	b.ge	110d8c <endif>  // b.tcont
+  110d80:	d37ff8ea 	lsl	x10, x7, #1
+  110d84:	ab0a0108 	adds	x8, x8, x10
+  110d88:	91000442 	add	x2, x2, #0x1
+
+0000000000110d8c <endif>:
+  110d8c:	17fffff3 	b	110d58 <loop>
+  110d90:	eb1f00df 	cmp	x6, xzr
+  110d94:	540001ec 	b.gt	110dd0 <end>
+
+0000000000110d98 <loop1>:
+  110d98:	eb04005f 	cmp	x2, x4
+  110d9c:	540001ad 	b.le	110dd0 <end>
+  110da0:	97ffff9d 	bl	110c14 <pintarPixel>
+  110da4:	eb1f011f 	cmp	x8, xzr
+  110da8:	5400008b 	b.lt	110db8 <else1>  // b.tstop
+  110dac:	91000463 	add	x3, x3, #0x1
+  110db0:	d37ff8c9 	lsl	x9, x6, #1
+  110db4:	ab090108 	adds	x8, x8, x9
+
+0000000000110db8 <else1>:
+  110db8:	eb1f011f 	cmp	x8, xzr
+  110dbc:	5400008a 	b.ge	110dcc <endif1>  // b.tcont
+  110dc0:	d37ff8ea 	lsl	x10, x7, #1
+  110dc4:	ab0a0108 	adds	x8, x8, x10
+  110dc8:	f1000442 	subs	x2, x2, #0x1
+
+0000000000110dcc <endif1>:
+  110dcc:	17fffff3 	b	110d98 <loop1>
+
+0000000000110dd0 <end>:
+  110dd0:	f84483ed 	ldur	x13, [sp, #72]
+  110dd4:	f84403ec 	ldur	x12, [sp, #64]
+  110dd8:	f84383ea 	ldur	x10, [sp, #56]
+  110ddc:	f84303e9 	ldur	x9, [sp, #48]
+  110de0:	f84283e8 	ldur	x8, [sp, #40]
+  110de4:	f84203e7 	ldur	x7, [sp, #32]
+  110de8:	f84183e6 	ldur	x6, [sp, #24]
+  110dec:	f84103e3 	ldur	x3, [sp, #16]
+  110df0:	f84083e2 	ldur	x2, [sp, #8]
+  110df4:	f84003fe 	ldur	x30, [sp]
+  110df8:	910143ff 	add	sp, sp, #0x50
+  110dfc:	d61f03c0 	br	x30
+
+0000000000110e00 <pintarTrianguloRectangulo>:
+  110e00:	d10043ff 	sub	sp, sp, #0x10
+  110e04:	f80083fe 	stur	x30, [sp, #8]
+  110e08:	f80003e3 	stur	x3, [sp]
+
+0000000000110e0c <loop_pintarTrianguloRectangulo>:
+  110e0c:	eb05007f 	cmp	x3, x5
+  110e10:	5400008c 	b.gt	110e20 <end_loop_pintarTrianguloRectangulo>
+  110e14:	97ffffc1 	bl	110d18 <dline>
+  110e18:	91000463 	add	x3, x3, #0x1
+  110e1c:	17fffffc 	b	110e0c <loop_pintarTrianguloRectangulo>
+
+0000000000110e20 <end_loop_pintarTrianguloRectangulo>:
+  110e20:	f84083fe 	ldur	x30, [sp, #8]
+  110e24:	f84003e3 	ldur	x3, [sp]
+  110e28:	910043ff 	add	sp, sp, #0x10
+  110e2c:	d61f03c0 	br	x30
+
+0000000000110e30 <pintarTrianguloRectanguloDown>:
+  110e30:	d10043ff 	sub	sp, sp, #0x10
+  110e34:	f80083fe 	stur	x30, [sp, #8]
+  110e38:	f80003e2 	stur	x2, [sp]
+
+0000000000110e3c <loop_pintarTrianguloRectanguloDown>:
+  110e3c:	eb04005f 	cmp	x2, x4
+  110e40:	5400008c 	b.gt	110e50 <end_loop_pintarTrianguloRectanguloDown>
+  110e44:	97ffffb5 	bl	110d18 <dline>
+  110e48:	91000442 	add	x2, x2, #0x1
+  110e4c:	17fffffc 	b	110e3c <loop_pintarTrianguloRectanguloDown>
+
+0000000000110e50 <end_loop_pintarTrianguloRectanguloDown>:
+  110e50:	f84083fe 	ldur	x30, [sp, #8]
+  110e54:	f84003e2 	ldur	x2, [sp]
+  110e58:	910043ff 	add	sp, sp, #0x10
+  110e5c:	d61f03c0 	br	x30
+
+0000000000110e60 <pintarTrianguloRectanguloDownI>:
+  110e60:	d10043ff 	sub	sp, sp, #0x10
+  110e64:	f80083fe 	stur	x30, [sp, #8]
+  110e68:	f80003e2 	stur	x2, [sp]
+
+0000000000110e6c <loop_pintarTrianguloRectanguloDownI>:
+  110e6c:	eb02009f 	cmp	x4, x2
+  110e70:	5400008c 	b.gt	110e80 <end_loop_pintarTrianguloRectanguloDownI>
+  110e74:	97ffffa9 	bl	110d18 <dline>
+  110e78:	d1000442 	sub	x2, x2, #0x1
+  110e7c:	17fffffc 	b	110e6c <loop_pintarTrianguloRectanguloDownI>
+
+0000000000110e80 <end_loop_pintarTrianguloRectanguloDownI>:
+  110e80:	f84083fe 	ldur	x30, [sp, #8]
+  110e84:	f84003e2 	ldur	x2, [sp]
+  110e88:	910043ff 	add	sp, sp, #0x10
+  110e8c:	d61f03c0 	br	x30
+
+0000000000110e90 <pintarTriangulo>:
+  110e90:	d10043ff 	sub	sp, sp, #0x10
+  110e94:	f80083fe 	stur	x30, [sp, #8]
+  110e98:	f80003e4 	stur	x4, [sp]
+  110e9c:	97ffffd9 	bl	110e00 <pintarTrianguloRectangulo>
+  110ea0:	cb020089 	sub	x9, x4, x2
+  110ea4:	cb090044 	sub	x4, x2, x9
+  110ea8:	97ffffd6 	bl	110e00 <pintarTrianguloRectangulo>
+  110eac:	f84083fe 	ldur	x30, [sp, #8]
+  110eb0:	f84003e4 	ldur	x4, [sp]
+  110eb4:	910043ff 	add	sp, sp, #0x10
+  110eb8:	d61f03c0 	br	x30
+
+0000000000110ebc <pintarTrianguloDown>:
+  110ebc:	d10063ff 	sub	sp, sp, #0x18
+  110ec0:	f80103fe 	stur	x30, [sp, #16]
+  110ec4:	f80083e2 	stur	x2, [sp, #8]
+  110ec8:	f80003e4 	stur	x4, [sp]
+  110ecc:	97ffffd9 	bl	110e30 <pintarTrianguloRectanguloDown>
+  110ed0:	cb020082 	sub	x2, x4, x2
+  110ed4:	8b020082 	add	x2, x4, x2
+  110ed8:	d1000484 	sub	x4, x4, #0x1
+  110edc:	97ffffe1 	bl	110e60 <pintarTrianguloRectanguloDownI>
+  110ee0:	f84103fe 	ldur	x30, [sp, #16]
+  110ee4:	f84083e2 	ldur	x2, [sp, #8]
+  110ee8:	f84003e4 	ldur	x4, [sp]
+  110eec:	910063ff 	add	sp, sp, #0x18
+  110ef0:	d61f03c0 	br	x30
+
+0000000000110ef4 <circulos_horizontales>:
+  110ef4:	d10043ff 	sub	sp, sp, #0x10
+  110ef8:	f80083fe 	stur	x30, [sp, #8]
+  110efc:	f80003e2 	stur	x2, [sp]
+
+0000000000110f00 <loop_circulos_horizontales>:
+  110f00:	eb06005f 	cmp	x2, x6
+  110f04:	5400008c 	b.gt	110f14 <end_loop_circulos_horizontales>
+  110f08:	97ffff66 	bl	110ca0 <pintarCirculo>
+  110f0c:	8b050042 	add	x2, x2, x5
+  110f10:	17fffffc 	b	110f00 <loop_circulos_horizontales>
+
+0000000000110f14 <end_loop_circulos_horizontales>:
+  110f14:	f84083fe 	ldur	x30, [sp, #8]
+  110f18:	f84003e2 	ldur	x2, [sp]
+  110f1c:	910043ff 	add	sp, sp, #0x10
+  110f20:	d61f03c0 	br	x30
+
+0000000000110f24 <circulos_verticales>:
+  110f24:	d10043ff 	sub	sp, sp, #0x10
+  110f28:	f80083fe 	stur	x30, [sp, #8]
+  110f2c:	f80003e3 	stur	x3, [sp]
+
+0000000000110f30 <loop_circulos_verticales>:
+  110f30:	eb06007f 	cmp	x3, x6
+  110f34:	5400008c 	b.gt	110f44 <end_loop_circulos_verticales>
+  110f38:	97ffff5a 	bl	110ca0 <pintarCirculo>
+  110f3c:	8b050063 	add	x3, x3, x5
+  110f40:	17fffffc 	b	110f30 <loop_circulos_verticales>
+
+0000000000110f44 <end_loop_circulos_verticales>:
+  110f44:	f84083fe 	ldur	x30, [sp, #8]
+  110f48:	f84003e3 	ldur	x3, [sp]
+  110f4c:	910043ff 	add	sp, sp, #0x10
+  110f50:	d61f03c0 	br	x30
+
+0000000000110f54 <columnaTriangulos>:
+  110f54:	d10043ff 	sub	sp, sp, #0x10
+  110f58:	f80083fe 	stur	x30, [sp, #8]
+  110f5c:	f80003e3 	stur	x3, [sp]
+
+0000000000110f60 <loop_triangulos_verticales>:
+  110f60:	eb05007f 	cmp	x3, x5
+  110f64:	5400008c 	b.gt	110f74 <end_loop_triangulos_verticales>
+  110f68:	97ffffca 	bl	110e90 <pintarTriangulo>
+  110f6c:	8b060063 	add	x3, x3, x6
+  110f70:	17fffffc 	b	110f60 <loop_triangulos_verticales>
+
+0000000000110f74 <end_loop_triangulos_verticales>:
+  110f74:	f84083fe 	ldur	x30, [sp, #8]
+  110f78:	f84003e3 	ldur	x3, [sp]
+  110f7c:	910043ff 	add	sp, sp, #0x10
+  110f80:	d61f03c0 	br	x30
+
+0000000000110f84 <pintarPasto>:
+  110f84:	d100c3ff 	sub	sp, sp, #0x30
+  110f88:	f80283e5 	stur	x5, [sp, #40]
+  110f8c:	f80203e4 	stur	x4, [sp, #32]
+  110f90:	f80183e3 	stur	x3, [sp, #24]
+  110f94:	f80103e2 	stur	x2, [sp, #16]
+  110f98:	f80083e1 	stur	x1, [sp, #8]
+  110f9c:	f80003fe 	stur	x30, [sp]
+  110fa0:	d2800089 	mov	x9, #0x4                   	// #4
+
+0000000000110fa4 <pintarPasto1>:
+  110fa4:	b40001e9 	cbz	x9, 110fe0 <end_pasto>
+  110fa8:	d1000529 	sub	x9, x9, #0x1
+  110fac:	58ffe141 	ldr	x1, 110bd4 <colorArbusto>
+  110fb0:	d2800002 	mov	x2, #0x0                   	// #0
+  110fb4:	d2801f43 	mov	x3, #0xfa                  	// #250
+  110fb8:	d28003c4 	mov	x4, #0x1e                  	// #30
+  110fbc:	d2802585 	mov	x5, #0x12c                 	// #300
+  110fc0:	97ffffbf 	bl	110ebc <pintarTrianguloDown>
+
+0000000000110fc4 <lp>:
+  110fc4:	f10a005f 	cmp	x2, #0x280
+  110fc8:	540000ac 	b.gt	110fdc <endlp>
+  110fcc:	91010442 	add	x2, x2, #0x41
+  110fd0:	91007844 	add	x4, x2, #0x1e
+  110fd4:	97ffffba 	bl	110ebc <pintarTrianguloDown>
+  110fd8:	17fffffb 	b	110fc4 <lp>
+
+0000000000110fdc <endlp>:
+  110fdc:	17fffff2 	b	110fa4 <pintarPasto1>
+
+0000000000110fe0 <end_pasto>:
+  110fe0:	f84283e5 	ldur	x5, [sp, #40]
+  110fe4:	f84203e4 	ldur	x4, [sp, #32]
+  110fe8:	f84183e3 	ldur	x3, [sp, #24]
+  110fec:	f84103e2 	ldur	x2, [sp, #16]
+  110ff0:	f84083e1 	ldur	x1, [sp, #8]
+  110ff4:	f84003fe 	ldur	x30, [sp]
+  110ff8:	9100c3ff 	add	sp, sp, #0x30
+  110ffc:	d61f03c0 	br	x30
 
 Disassembly of section .debug_line:
 
 0000000000000000 <.debug_line>:
-   0:	00000064 	udf	#100
-   4:	001c0003 	.inst	0x001c0003 ; undefined
+   0:	0000007e 	udf	#126
+   4:	001e0003 	.inst	0x001e0003 ; undefined
    8:	01040000 	.inst	0x01040000 ; undefined
    c:	000d0efb 	.inst	0x000d0efb ; undefined
   10:	01010101 	.inst	0x01010101 ; undefined
   14:	01000000 	.inst	0x01000000 ; undefined
   18:	00010000 	.inst	0x00010000 ; undefined
-  1c:	2e707061 	uabdl	v1.4s, v3.4h, v16.4h
-  20:	00000073 	udf	#115
-  24:	09000000 	.inst	0x09000000 ; undefined
-  28:	0900c802 	.inst	0x0900c802 ; undefined
-  2c:	00000000 	udf	#0
-  30:	01100300 	.inst	0x01100300 ; undefined
-  34:	22222124 	.inst	0x22222124 ; undefined
-  38:	21212122 	.inst	0x21212122 ; undefined
-  3c:	21232121 	.inst	0x21232121 ; undefined
-  40:	27212123 	.inst	0x27212123 ; undefined
-  44:	03212121 	.inst	0x03212121 ; undefined
-  48:	2121200b 	.inst	0x2121200b ; undefined
-  4c:	26242221 	.inst	0x26242221 ; undefined
-  50:	09032124 	.inst	0x09032124 ; undefined
-  54:	09032520 	.inst	0x09032520 ; undefined
-  58:	21212120 	.inst	0x21212120 ; undefined
-  5c:	21212121 	.inst	0x21212121 ; undefined
-  60:	02232121 	.inst	0x02232121 ; undefined
-  64:	01010001 	.inst	0x01010001 ; undefined
-  68:	0000007e 	udf	#126
-  6c:	001e0003 	.inst	0x001e0003 ; undefined
-  70:	01040000 	.inst	0x01040000 ; undefined
-  74:	000d0efb 	.inst	0x000d0efb ; undefined
-  78:	01010101 	.inst	0x01010101 ; undefined
-  7c:	01000000 	.inst	0x01000000 ; undefined
-  80:	00010000 	.inst	0x00010000 ; undefined
-  84:	6e696c64 	umin	v4.8h, v3.8h, v9.8h
-  88:	00732e65 	.inst	0x00732e65 ; undefined
-  8c:	00000000 	udf	#0
-  90:	70020900 	adr	x0, 41b3 <MMIO_BASE_ALTA+0x293>
-  94:	00000901 	udf	#2305
-  98:	18000000 	ldr	w0, 98 <GPPUDCLK0>
-  9c:	21212121 	.inst	0x21212121 ; undefined
-  a0:	21212121 	.inst	0x21212121 ; undefined
-  a4:	21252121 	.inst	0x21252121 ; undefined
-  a8:	21212123 	.inst	0x21212123 ; undefined
-  ac:	21212121 	.inst	0x21212121 ; undefined
-  b0:	23222124 	.inst	0x23222124 ; undefined
-  b4:	23212421 	.inst	0x23212421 ; undefined
-  b8:	23212121 	.inst	0x23212121 ; undefined
+  1c:	6e696c64 	umin	v4.8h, v3.8h, v9.8h
+  20:	00732e65 	.inst	0x00732e65 ; undefined
+  24:	00000000 	udf	#0
+  28:	c8020900 	stxr	w2, x0, [x8]
+  2c:	00000900 	udf	#2304
+  30:	19000000 	stlurb	w0, [x0]
+  34:	21212121 	.inst	0x21212121 ; undefined
+  38:	21212121 	.inst	0x21212121 ; undefined
+  3c:	21252121 	.inst	0x21252121 ; undefined
+  40:	21212123 	.inst	0x21212123 ; undefined
+  44:	21212121 	.inst	0x21212121 ; undefined
+  48:	23222124 	.inst	0x23222124 ; undefined
+  4c:	23212421 	.inst	0x23212421 ; undefined
+  50:	23212121 	.inst	0x23212121 ; undefined
+  54:	21212121 	.inst	0x21212121 ; undefined
+  58:	21212122 	.inst	0x21212122 ; undefined
+  5c:	21242221 	.inst	0x21242221 ; undefined
+  60:	21232124 	.inst	0x21232124 ; undefined
+  64:	21232121 	.inst	0x21232121 ; undefined
+  68:	22212121 	.inst	0x22212121 ; undefined
+  6c:	21212121 	.inst	0x21212121 ; undefined
+  70:	21212422 	.inst	0x21212422 ; undefined
+  74:	21212121 	.inst	0x21212121 ; undefined
+  78:	21212121 	.inst	0x21212121 ; undefined
+  7c:	00010221 	.inst	0x00010221 ; undefined
+  80:	00590101 	.inst	0x00590101 ; undefined
+  84:	00030000 	.inst	0x00030000 ; undefined
+  88:	00000022 	udf	#34
+  8c:	0efb0104 	.inst	0x0efb0104 ; undefined
+  90:	0101000d 	.inst	0x0101000d ; undefined
+  94:	00000101 	udf	#257
+  98:	00000100 	udf	#256
+  9c:	65720001 	fmla	z1.h, p0/m, z0.h, z18.h
+  a0:	6e617463 	uabd	v3.8h, v3.8h, v1.8h
+  a4:	2e656c67 	umin	v7.4h, v3.4h, v5.4h
+  a8:	00000073 	udf	#115
+  ac:	09000000 	.inst	0x09000000 ; undefined
+  b0:	0901f002 	.inst	0x0901f002 ; undefined
+  b4:	00000000 	udf	#0
+  b8:	21211900 	.inst	0x21211900 ; undefined
   bc:	21212121 	.inst	0x21212121 ; undefined
-  c0:	21212122 	.inst	0x21212122 ; undefined
-  c4:	21242221 	.inst	0x21242221 ; undefined
-  c8:	21232124 	.inst	0x21232124 ; undefined
-  cc:	21232121 	.inst	0x21232121 ; undefined
-  d0:	22212121 	.inst	0x22212121 ; undefined
+  c0:	21212121 	.inst	0x21212121 ; undefined
+  c4:	22232121 	.inst	0x22232121 ; undefined
+  c8:	21212121 	.inst	0x21212121 ; undefined
+  cc:	21212321 	.inst	0x21212321 ; undefined
+  d0:	21212122 	.inst	0x21212122 ; undefined
   d4:	21212121 	.inst	0x21212121 ; undefined
-  d8:	21212422 	.inst	0x21212422 ; undefined
-  dc:	21212121 	.inst	0x21212121 ; undefined
-  e0:	21212121 	.inst	0x21212121 ; undefined
-  e4:	00010221 	.inst	0x00010221 ; undefined
-  e8:	00590101 	.inst	0x00590101 ; undefined
-  ec:	00030000 	.inst	0x00030000 ; undefined
-  f0:	00000022 	udf	#34
-  f4:	0efb0104 	.inst	0x0efb0104 ; undefined
-  f8:	0101000d 	.inst	0x0101000d ; undefined
-  fc:	00000101 	udf	#257
- 100:	00000100 	udf	#256
- 104:	65720001 	fmla	z1.h, p0/m, z0.h, z18.h
- 108:	6e617463 	uabd	v3.8h, v3.8h, v1.8h
- 10c:	2e656c67 	umin	v7.4h, v3.4h, v5.4h
- 110:	00000073 	udf	#115
- 114:	09000000 	.inst	0x09000000 ; undefined
- 118:	09029802 	.inst	0x09029802 ; undefined
- 11c:	00000000 	udf	#0
- 120:	21211900 	.inst	0x21211900 ; undefined
+  d8:	01022121 	.inst	0x01022121 ; undefined
+  dc:	4f010100 	.inst	0x4f010100 ; undefined
+  e0:	03000000 	.inst	0x03000000 ; undefined
+  e4:	00001e00 	udf	#7680
+  e8:	fb010400 	.inst	0xfb010400 ; undefined
+  ec:	01000d0e 	.inst	0x01000d0e ; undefined
+  f0:	00010101 	.inst	0x00010101 ; undefined
+  f4:	00010000 	.inst	0x00010000 ; undefined
+  f8:	73000100 	.inst	0x73000100 ; undefined
+  fc:	74726174 	.inst	0x74726174 ; undefined
+ 100:	0000732e 	udf	#29486
+ 104:	00000000 	udf	#0
+ 108:	00000209 	udf	#521
+ 10c:	00000008 	udf	#8
+ 110:	30030000 	adr	x0, 6111 <MMIO_BASE_ALTA+0x21f1>
+ 114:	23212101 	.inst	0x23212101 ; undefined
+ 118:	21232124 	.inst	0x21232124 ; undefined
+ 11c:	21212122 	.inst	0x21212122 ; undefined
+ 120:	21212124 	.inst	0x21212124 ; undefined
  124:	21212121 	.inst	0x21212121 ; undefined
- 128:	21212121 	.inst	0x21212121 ; undefined
- 12c:	22232121 	.inst	0x22232121 ; undefined
- 130:	21212121 	.inst	0x21212121 ; undefined
- 134:	21212321 	.inst	0x21212321 ; undefined
- 138:	21212122 	.inst	0x21212122 ; undefined
- 13c:	21212121 	.inst	0x21212121 ; undefined
- 140:	01022121 	.inst	0x01022121 ; undefined
- 144:	4f010100 	.inst	0x4f010100 ; undefined
- 148:	03000000 	.inst	0x03000000 ; undefined
- 14c:	00001e00 	udf	#7680
- 150:	fb010400 	.inst	0xfb010400 ; undefined
- 154:	01000d0e 	.inst	0x01000d0e ; undefined
- 158:	00010101 	.inst	0x00010101 ; undefined
- 15c:	00010000 	.inst	0x00010000 ; undefined
- 160:	73000100 	.inst	0x73000100 ; undefined
- 164:	74726174 	.inst	0x74726174 ; undefined
- 168:	0000732e 	udf	#29486
- 16c:	00000000 	udf	#0
- 170:	00000209 	udf	#521
- 174:	00000008 	udf	#8
- 178:	30030000 	adr	x0, 6179 <MMIO_BASE_ALTA+0x2259>
- 17c:	23212101 	.inst	0x23212101 ; undefined
- 180:	21232124 	.inst	0x21232124 ; undefined
- 184:	21212122 	.inst	0x21212122 ; undefined
- 188:	21212124 	.inst	0x21212124 ; undefined
- 18c:	21212121 	.inst	0x21212121 ; undefined
- 190:	02212121 	.inst	0x02212121 ; undefined
- 194:	0001809c 	.inst	0x0001809c ; undefined
- 198:	00420101 	.inst	0x00420101 ; undefined
- 19c:	00030000 	.inst	0x00030000 ; undefined
- 1a0:	00000020 	udf	#32
- 1a4:	0efb0104 	.inst	0x0efb0104 ; undefined
- 1a8:	0101000d 	.inst	0x0101000d ; undefined
- 1ac:	00000101 	udf	#257
- 1b0:	00000100 	udf	#256
- 1b4:	6f740001 	mla	v1.8h, v0.8h, v4.h[3]
- 1b8:	65786970 	fnmls	z16.h, p2/m, z11.h, z24.h
- 1bc:	00732e6c 	.inst	0x00732e6c ; undefined
- 1c0:	00000000 	udf	#0
- 1c4:	1c020900 	ldr	s0, 42e4 <MMIO_BASE_ALTA+0x3c4>
- 1c8:	00001103 	udf	#4355
- 1cc:	18000000 	ldr	w0, 1cc <GPPUDCLK0+0x134>
- 1d0:	21212121 	.inst	0x21212121 ; undefined
- 1d4:	21212121 	.inst	0x21212121 ; undefined
- 1d8:	02212121 	.inst	0x02212121 ; undefined
- 1dc:	01010001 	.inst	0x01010001 ; undefined
+ 128:	02212121 	.inst	0x02212121 ; undefined
+ 12c:	0001809c 	.inst	0x0001809c ; undefined
+ 130:	00420101 	.inst	0x00420101 ; undefined
+ 134:	00030000 	.inst	0x00030000 ; undefined
+ 138:	00000020 	udf	#32
+ 13c:	0efb0104 	.inst	0x0efb0104 ; undefined
+ 140:	0101000d 	.inst	0x0101000d ; undefined
+ 144:	00000101 	udf	#257
+ 148:	00000100 	udf	#256
+ 14c:	6f740001 	mla	v1.8h, v0.8h, v4.h[3]
+ 150:	65786970 	fnmls	z16.h, p2/m, z11.h, z24.h
+ 154:	00732e6c 	.inst	0x00732e6c ; undefined
+ 158:	00000000 	udf	#0
+ 15c:	74020900 	.inst	0x74020900 ; undefined
+ 160:	00001102 	udf	#4354
+ 164:	18000000 	ldr	w0, 164 <alturaArbol+0x24>
+ 168:	21212121 	.inst	0x21212121 ; undefined
+ 16c:	21212121 	.inst	0x21212121 ; undefined
+ 170:	02212121 	.inst	0x02212121 ; undefined
+ 174:	01010001 	.inst	0x01010001 ; undefined
 
 Disassembly of section .debug_info:
 
@@ -16796,58 +18013,45 @@ Disassembly of section .debug_info:
    c:	00000000 	udf	#0
   10:	000900c8 	.inst	0x000900c8 ; undefined
   14:	00000000 	udf	#0
-  18:	00090170 	.inst	0x00090170 ; undefined
+  18:	000901f0 	.inst	0x000901f0 ; undefined
 	...
-  24:	00000006 	udf	#6
-  28:	00000051 	udf	#81
+  24:	00000008 	udf	#8
+  28:	00000031 	udf	#49
   2c:	002a8001 	.inst	0x002a8001 ; NYI
   30:	00020000 	.inst	0x00020000 ; undefined
   34:	00000014 	udf	#20
-  38:	00680108 	.inst	0x00680108 ; undefined
-  3c:	01700000 	.inst	0x01700000 ; undefined
+  38:	00820108 	.inst	0x00820108 ; undefined
+  3c:	01f00000 	.inst	0x01f00000 ; undefined
   40:	00000009 	udf	#9
-  44:	02980000 	.inst	0x02980000 ; undefined
+  44:	02740000 	.inst	0x02740000 ; undefined
   48:	00000009 	udf	#9
-  4c:	005d0000 	.inst	0x005d0000 ; undefined
-  50:	00060000 	.inst	0x00060000 ; undefined
-  54:	00510000 	.inst	0x00510000 ; undefined
+  4c:	003d0000 	.inst	0x003d0000 ; NYI
+  50:	00080000 	.inst	0x00080000 ; undefined
+  54:	00310000 	.inst	0x00310000 ; NYI
   58:	80010000 	.inst	0x80010000 ; undefined
   5c:	0000002a 	udf	#42
   60:	00280002 	.inst	0x00280002 ; NYI
   64:	01080000 	.inst	0x01080000 ; undefined
-  68:	000000ea 	udf	#234
-  6c:	00090298 	.inst	0x00090298 ; undefined
+  68:	000000df 	udf	#223
+  6c:	00080000 	.inst	0x00080000 ; undefined
   70:	00000000 	udf	#0
-  74:	0009031c 	.inst	0x0009031c ; undefined
+  74:	000900c8 	.inst	0x000900c8 ; undefined
   78:	00000000 	udf	#0
-  7c:	00000065 	udf	#101
-  80:	00000006 	udf	#6
-  84:	00000051 	udf	#81
+  7c:	00000049 	udf	#73
+  80:	00000008 	udf	#8
+  84:	00000031 	udf	#49
   88:	002a8001 	.inst	0x002a8001 ; NYI
   8c:	00020000 	.inst	0x00020000 ; undefined
   90:	0000003c 	udf	#60
-  94:	01470108 	.inst	0x01470108 ; undefined
-  98:	00000000 	udf	#0
-  9c:	00000008 	udf	#8
-  a0:	00c80000 	.inst	0x00c80000 ; undefined
-  a4:	00000009 	udf	#9
-  a8:	00710000 	.inst	0x00710000 ; undefined
-  ac:	00060000 	.inst	0x00060000 ; undefined
-  b0:	00510000 	.inst	0x00510000 ; undefined
+  94:	01320108 	.inst	0x01320108 ; undefined
+  98:	02740000 	.inst	0x02740000 ; undefined
+  9c:	00000011 	udf	#17
+  a0:	02a40000 	.inst	0x02a40000 ; undefined
+  a4:	00000011 	udf	#17
+  a8:	00510000 	.inst	0x00510000 ; undefined
+  ac:	00080000 	.inst	0x00080000 ; undefined
+  b0:	00310000 	.inst	0x00310000 ; NYI
   b4:	80010000 	.inst	0x80010000 ; undefined
-  b8:	0000002a 	udf	#42
-  bc:	00500002 	.inst	0x00500002 ; undefined
-  c0:	01080000 	.inst	0x01080000 ; undefined
-  c4:	0000019a 	udf	#410
-  c8:	0011031c 	.inst	0x0011031c ; undefined
-  cc:	00000000 	udf	#0
-  d0:	0011034c 	.inst	0x0011034c ; undefined
-  d4:	00000000 	udf	#0
-  d8:	00000079 	udf	#121
-  dc:	00000006 	udf	#6
-  e0:	00000051 	udf	#81
-  e4:	Address 0xe4 is out of bounds.
-
 
 Disassembly of section .debug_abbrev:
 
@@ -16872,11 +18076,6 @@ Disassembly of section .debug_abbrev:
   44:	1b0e0301 	madd	w1, w24, w14, w0
   48:	130e250e 	sbfiz	w14, w8, #18, #10
   4c:	00000005 	udf	#5
-  50:	10001101 	adr	x1, 270 <SCREEN_HEIGH+0x90>
-  54:	12011106 	and	w6, w8, #0x8000000f
-  58:	1b0e0301 	madd	w1, w24, w14, w0
-  5c:	130e250e 	sbfiz	w14, w8, #18, #10
-  60:	00000005 	udf	#5
 
 Disassembly of section .debug_aranges:
 
@@ -16887,75 +18086,57 @@ Disassembly of section .debug_aranges:
    c:	00000000 	udf	#0
   10:	000900c8 	.inst	0x000900c8 ; undefined
   14:	00000000 	udf	#0
-  18:	000000a8 	udf	#168
+  18:	00000128 	udf	#296
 	...
   30:	0000002c 	udf	#44
   34:	002e0002 	.inst	0x002e0002 ; NYI
   38:	00080000 	.inst	0x00080000 ; undefined
   3c:	00000000 	udf	#0
-  40:	00090170 	.inst	0x00090170 ; undefined
+  40:	000901f0 	.inst	0x000901f0 ; undefined
   44:	00000000 	udf	#0
-  48:	00000128 	udf	#296
+  48:	00000084 	udf	#132
 	...
   60:	0000002c 	udf	#44
   64:	005c0002 	.inst	0x005c0002 ; undefined
   68:	00080000 	.inst	0x00080000 ; undefined
   6c:	00000000 	udf	#0
-  70:	00090298 	.inst	0x00090298 ; undefined
+  70:	00080000 	.inst	0x00080000 ; undefined
   74:	00000000 	udf	#0
-  78:	00000084 	udf	#132
+  78:	000100c8 	.inst	0x000100c8 ; undefined
 	...
   90:	0000002c 	udf	#44
   94:	008a0002 	.inst	0x008a0002 ; undefined
   98:	00080000 	.inst	0x00080000 ; undefined
   9c:	00000000 	udf	#0
-  a0:	00080000 	.inst	0x00080000 ; undefined
+  a0:	00110274 	.inst	0x00110274 ; undefined
   a4:	00000000 	udf	#0
-  a8:	000100c8 	.inst	0x000100c8 ; undefined
-	...
-  c0:	0000002c 	udf	#44
-  c4:	00b80002 	.inst	0x00b80002 ; undefined
-  c8:	00080000 	.inst	0x00080000 ; undefined
-  cc:	00000000 	udf	#0
-  d0:	0011031c 	.inst	0x0011031c ; undefined
-  d4:	00000000 	udf	#0
-  d8:	00000030 	udf	#48
+  a8:	00000030 	udf	#48
 	...
 
 Disassembly of section .debug_str:
 
 0000000000000000 <.debug_str>:
-   0:	2e707061 	uabdl	v1.4s, v3.4h, v16.4h
-   4:	682f0073 	.inst	0x682f0073 ; undefined
-   8:	2f656d6f 	.inst	0x2f656d6f ; undefined
-   c:	67657267 	.inst	0x67657267 ; undefined
-  10:	6c69766f 	ldnp	d15, d29, [x19, #-368]
-  14:	6f647261 	fcmla	v1.8h, v19.8h, v4.h[1], #270
-  18:	636f442f 	.inst	0x636f442f ; undefined
-  1c:	6e656d75 	umin	v21.8h, v11.8h, v5.8h
-  20:	462f7374 	.inst	0x462f7374 ; undefined
-  24:	46414d61 	.inst	0x46414d61 ; undefined
-  28:	6765532f 	.inst	0x6765532f ; undefined
-  2c:	6f646e75 	.inst	0x6f646e75 ; undefined
-  30:	67724f2f 	.inst	0x67724f2f ; undefined
-  34:	706d432d 	adr	x13, da89b <loop0+0x4a5cb>
-  38:	62614c2f 	.inst	0x62614c2f ; undefined
-  3c:	6970722f 	ldpsw	x15, x28, [x17, #-128]
-  40:	6d73612d 	ldp	d13, d24, [x9, #-208]
-  44:	6172662d 	.inst	0x6172662d ; undefined
-  48:	7562656d 	.inst	0x7562656d ; undefined
-  4c:	72656666 	.inst	0x72656666 ; undefined
-  50:	554e4700 	.inst	0x554e4700 ; undefined
-  54:	20534120 	.inst	0x20534120 ; undefined
-  58:	30342e32 	adr	x18, 6861d <Set_Palette+0x20612>
-  5c:	696c6400 	ldpsw	x0, x25, [x0, #-160]
-  60:	732e656e 	.inst	0x732e656e ; undefined
-  64:	63657200 	.inst	0x63657200 ; undefined
-  68:	676e6174 	.inst	0x676e6174 ; undefined
-  6c:	732e656c 	.inst	0x732e656c ; undefined
-  70:	61747300 	.inst	0x61747300 ; undefined
-  74:	732e7472 	.inst	0x732e7472 ; undefined
-  78:	706f7400 	adr	x0, deefb <loop0+0x4ec2b>
-  7c:	6c657869 	ldnp	d9, d30, [x3, #-432]
-  80:	Address 0x80 is out of bounds.
+   0:	6e696c64 	umin	v4.8h, v3.8h, v9.8h
+   4:	00732e65 	.inst	0x00732e65 ; undefined
+   8:	6d6f682f 	ldp	d15, d26, [x1, #-272]
+   c:	72672f65 	.inst	0x72672f65 ; undefined
+  10:	766f6765 	.inst	0x766f6765 ; undefined
+  14:	72616c69 	.inst	0x72616c69 ; undefined
+  18:	442f6f64 	.inst	0x442f6f64 ; undefined
+  1c:	6d75636f 	ldp	d15, d24, [x27, #-176]
+  20:	73746e65 	.inst	0x73746e65 ; undefined
+  24:	6172742f 	.inst	0x6172742f ; undefined
+  28:	6f6a6162 	umlsl2	v2.4s, v11.8h, v10.h[2]
+  2c:	67726f5f 	.inst	0x67726f5f ; undefined
+  30:	554e4700 	.inst	0x554e4700 ; undefined
+  34:	20534120 	.inst	0x20534120 ; undefined
+  38:	30342e32 	adr	x18, 685fd <SCREEN_PIXELS+0x1d5fd>
+  3c:	63657200 	.inst	0x63657200 ; undefined
+  40:	676e6174 	.inst	0x676e6174 ; undefined
+  44:	732e656c 	.inst	0x732e656c ; undefined
+  48:	61747300 	.inst	0x61747300 ; undefined
+  4c:	732e7472 	.inst	0x732e7472 ; undefined
+  50:	706f7400 	adr	x0, deed3 <loop0+0x4ecab>
+  54:	6c657869 	ldnp	d9, d30, [x3, #-432]
+  58:	Address 0x58 is out of bounds.
 
