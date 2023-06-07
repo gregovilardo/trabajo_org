@@ -18,6 +18,9 @@
     No modifica ningún parámetro.
  */
 pintarPixel:
+        sub sp, sp, 16
+        stur x9, [sp, 8]
+        stur lr, [sp, 0]
         cmp x2, 640 // Veo si el x es valido
         b.hs return_pintarPixel
         cmp x3, 480 // Veo si el y es valido
@@ -30,6 +33,10 @@ pintarPixel:
         str w1, [x0, x9]  // Guardo el color w1 en la direccion base x0 + 4*(y*640 + x) 
 
     return_pintarPixel:
+        
+        ldur x9, [sp, 8]
+        ldur lr, [sp, 0]
+        add sp, sp, 16
         br lr // return
 //
 
@@ -143,6 +150,7 @@ pintarCirculo:
         sub x3, x3, x4 // Pongo en x3 la posición inicial en y
 
     loop1_pintarCirculo: // loop para avanzar en y
+        
         cmp x3, x11
         b.gt end_loop1_pintarCirculo // Veo si tengo que pintar el pixel actual
         sub x13, x2, x15 // x13 = distancia en x desde el pixel actual al centro
@@ -151,6 +159,7 @@ pintarCirculo:
         smaddl x13, w14, w14, x13 // x13 = x14*x14 + x13 // x13 = cuadrado de la distancia entre el centro y el pixel actual
         cmp x13, x12
         b.gt fi_pintarCirculo 
+        
         bl pintarPixel // Pinto el pixel actual
 
     fi_pintarCirculo:
@@ -159,6 +168,10 @@ pintarCirculo:
 
     end_loop1_pintarCirculo:
         add x2, x2, #1
+        cmp w1, w26   //x1 color que cambia con x26 color al que quiero llegar
+        b.gt notadd   // dejo de agregar si x1 > x26
+        add x1, x1, x24  // Para el degradado
+  notadd:
         b loop0_pintarCirculo
 
     end_loop0_pintarCirculo:
@@ -483,11 +496,14 @@ columnaTriangulos:
   stur lr, [sp, #8]   // Guardo el puntero de retorno en el stack
   stur x3, [sp]       // Guardo x3 en el stack
 
-  loop_triangulos_verticales: // loop para avanzar en x
-    cmp x3, x5
+  loop_triangulos_verticales: // loop para avanzar en y
+    cmp x3, x6  // y inicial > y destino  goto end_loop_triangulos_verticales
+    sub x9, x5, x3  // x9 = altura triangulo
+    add x9, x9, x7  // x9 = altura triangulo + separacion triangulos
     b.gt end_loop_triangulos_verticales
     bl pintarTriangulo
-    add x3, x3, x6
+    add x3, x3, x7 // punta del triangulo en y + separacion de triangulos 
+    add x5, x5, x7  //  base del triangulo en y + separacion de triangulos  
     b loop_triangulos_verticales
   
   end_loop_triangulos_verticales:

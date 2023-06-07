@@ -35,17 +35,54 @@ main:
 
 
 // Fondo
-	ldr x1, colorCielo4
-	ldr x24, degradado_r1
+	ldr w1, colorCielo4
+	ldr w24, degradado_r1
 	mov x2, 0
 	mov x3, 0
 	mov x4, 640
 	mov x5, anchoPiso
 	bl pintarRectangulo
 
-// Pasto 
+
+//Sol:
+// w1 es el color donde empieza, se va agregando w24 hasta llegar a w26
+// w1 < w26
+   ldr w1, colorSol1
+   mov x2, 220
+   mov x3, 240
+   mov x4, 80
+   ldr w24, degradado_g1
+   ldr w26, colorSol2
+   bl pintarCirculo
+
+//Luna:
+  ldr w1, colorLuna1
+  mov x2, 470
+  mov x3, 80
+  mov x4, 30
+  ldr w24, degradado
+  ldr w26, colorLuna2
+  bl pintarCirculo
+
+  ldr w1, colorCrater1
+  mov x2, 478
+  mov x3, 90
+  mov x4, 7
+  ldr w24, degradado
+  ldr w26, colorCrater2
+  bl pintarCirculo
+
+  ldr w1, colorCrater1
+  mov x2, 460
+  mov x3, 70
+  mov x4, 7
+  ldr w24, degradado
+  ldr w26, colorCrater2
+  bl pintarCirculo
+
+// Pasto: 
 	ldr x1, colorTierraFondo
-	ldr x24, no_degradado
+	ldr x24, negro
 	mov x2, 0
 	mov x3, 250
 	mov x4, 640
@@ -53,7 +90,13 @@ main:
 	bl pintarRectangulo
 
 	bl pintarPasto
-
+  bl pintarCavernicola
+   mov x2, 50
+   bl pintarPino2
+   add x2, x2, 150
+   bl pintarPino
+   add x2, x2, 200
+   bl pintarPino2
 
 	//ldr x1, colorArbusto
 	//mov x2, 120			//x2 = Coordenada del centro en x
@@ -65,61 +108,24 @@ main:
 
 
 
-   pino:
-   	/* tronco
-   		  x0 = Dirección base del arreglo
-           w1 = Color
-           x2 = Coordenada inicial en x  // posicion inicial x
-           x3 = Coordenada inicial en y  // altura arbol
-           x4 = Coordenada final en x    // posicion inicial x + ancho arbol
-           x5 = Coordenada final en y    // altura piso
-   	 */
-   	ldr x1, colorRopaNinja
-   	mov x2, 200
-   	mov x3, 200		
-    add x4, x2, 30
-   	mov x5, 100
-   	bl pintarRectangulo
-   	/* 
-         x0 = Dirección base del arreglo
-         w1 = Color
-         x2 = Coordenada centro en x   
-         x3 = Coordenada centro en y
-         x4 = Coordenada final en x
-         x5 = Coordenada final en y
-         x6 = Separacion triangulos
-   
-         (x2, x3) son la punta de la piramide
-       */
-   	mov x1, colorArbustoBorde
-	mov x9, 15
-   	add x2, x4, x9		// centro arbol
-    mov x6, 5
-    bl columnaTriangulos
+  //llamadas a pintarNube:
 
- 
-	    
-
-
-
-
-   
   /* x0 = direccion base del framebuffer
    w1 = color
    x2 = coordenada del centro en x
    x3 = coordenada del centro en y
    x4 = radio
    x5 = distancia entre circulos
-   x6 = coordenada destino x */
+   x6 = coordenada destino x, luego llamamos a circulos_horizontales */ 
 
+   //nube 1
    ldr x1, colorNubes
    mov x2, 90
    mov x3, 90 
    mov x4, 10
    mov x5, 15 //distancia entre nubes
    mov x6, 160
-   //mov x7, 4 //cantidad de nubes a pintar
-   bl circulos_horizontales
+   bl pintarNube
    
    ldr x1, colorNubes
    mov x2, 97
@@ -127,8 +133,43 @@ main:
    mov x4, 10
    mov x5, 15 //distancia entre nubes
    mov x6, 150
-   //mov x7, 4 //cantidad de nubes a pintar
-   bl circulos_horizontales
+   bl pintarNube
+ 
+ //nube 2
+   ldr x1, colorNubes
+   mov x2, 240
+   mov x3, 170
+   mov x4, 10
+   mov x5, 15 //distancia entre nubes
+   mov x6, 300
+   bl pintarNube
+
+   ldr x1, colorNubes
+   mov x2, 247
+   mov x3, 160
+   mov x4, 10
+   mov x5, 15 //distancia entre nubes
+   mov x6, 295
+   bl pintarNube
+
+//nube 3
+   ldr x1, colorNubes
+   mov x2, 390
+   mov x3, 80
+   mov x4, 15
+   mov x5, 1 //distancia entre nubes
+   mov x6, 430
+   bl pintarNube
+
+   ldr x1, colorNubes
+   mov x2, 397
+   mov x3, 70
+   mov x4, 15
+   mov x5, 15 //distancia entre nubes
+   mov x6, 420
+   bl pintarNube
+
+
 
   
 

@@ -41,39 +41,39 @@ LOAD topixel.o
  .rela.text.boot
                 0x00000000001102a8        0x0 dline.o
 
-.data           0x00000000001102a4      0xd5c
- .data          0x00000000001102a4      0x50c app.o
-                0x00000000001106e8                main
- .data          0x00000000001107b0       0x50 datos.o
- .data          0x0000000000110800        0x0 dline.o
- .data          0x0000000000110800      0x3c4 graficos.o
- .data          0x0000000000110bc4      0x43c props.o
- .data          0x0000000000111000        0x0 rectangle.o
- .data          0x0000000000111000        0x0 start.o
- .data          0x0000000000111000        0x0 topixel.o
+.data           0x00000000001102a4     0x12d8
+ .data          0x00000000001102a4      0x7ec app.o
+                0x00000000001108f8                main
+ .data          0x0000000000110a90       0x80 datos.o
+ .data          0x0000000000110b10        0x0 dline.o
+ .data          0x0000000000110b10      0x420 graficos.o
+ .data          0x0000000000110f30      0x64c props.o
+ .data          0x000000000011157c        0x0 rectangle.o
+ .data          0x000000000011157c        0x0 start.o
+ .data          0x000000000011157c        0x0 topixel.o
 
-.igot.plt       0x0000000000111000        0x0
- .igot.plt      0x0000000000111000        0x0 dline.o
+.igot.plt       0x0000000000111580        0x0
+ .igot.plt      0x0000000000111580        0x0 dline.o
 
-.bss            0x0000000000111000        0x0
+.bss            0x000000000011157c        0x0
  *(.bss*)
- .bss           0x0000000000111000        0x0 app.o
- .bss           0x0000000000111000        0x0 datos.o
- .bss           0x0000000000111000        0x0 dline.o
- .bss           0x0000000000111000        0x0 graficos.o
- .bss           0x0000000000111000        0x0 props.o
- .bss           0x0000000000111000        0x0 rectangle.o
- .bss           0x0000000000111000        0x0 start.o
- .bss           0x0000000000111000        0x0 topixel.o
+ .bss           0x000000000011157c        0x0 app.o
+ .bss           0x000000000011157c        0x0 datos.o
+ .bss           0x000000000011157c        0x0 dline.o
+ .bss           0x000000000011157c        0x0 graficos.o
+ .bss           0x000000000011157c        0x0 props.o
+ .bss           0x000000000011157c        0x0 rectangle.o
+ .bss           0x000000000011157c        0x0 start.o
+ .bss           0x000000000011157c        0x0 topixel.o
 
-.bss            0x0000000000111000        0x0
-                0x0000000000111000                . = ALIGN (0x10)
- *fill*         0x0000000000111000        0x0 
-                0x0000000000111000                __bss_start = .
+.bss            0x000000000011157c        0x4
+                0x0000000000111580                . = ALIGN (0x10)
+ *fill*         0x000000000011157c        0x4 
+                0x0000000000111580                __bss_start = .
  *(.bss .bss.*)
  *(COMMON)
-                0x0000000000111000                __bss_end = .
-                0x0000000000111000                _end = .
+                0x0000000000111580                __bss_end = .
+                0x0000000000111580                _end = .
                 0x0000000000000000                __bss_size = ((__bss_end - __bss_start) >> 0x3)
 OUTPUT(kernel8.elf elf64-littleaarch64)
 LOAD linker stubs
