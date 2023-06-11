@@ -8,109 +8,76 @@ Linker script and memory map
 
 LOAD app.o
 LOAD datos.o
-LOAD dline.o
+LOAD geometria.o
 LOAD graficos.o
-LOAD props.o
-LOAD rectangle.o
+LOAD objetos.o
 LOAD start.o
-LOAD topixel.o
                 0x0000000000080000                . = 0x80000
 
-.text           0x0000000000080000    0x902a4
+.text           0x0000000000080000    0x900c8
  *(.text.boot)
  .text.boot     0x0000000000080000    0x100c8 start.o
                 0x0000000000080000                _start
  *(.text*)
  .text          0x00000000000900c8        0x0 app.o
  .text          0x00000000000900c8        0x0 datos.o
- .text          0x00000000000900c8      0x128 dline.o
-                0x00000000000900c8                dline
- .text          0x00000000000901f0        0x0 graficos.o
- .text          0x00000000000901f0        0x0 props.o
- .text          0x00000000000901f0       0x84 rectangle.o
-                0x00000000000901f0                rectangle
- .text          0x0000000000090274    0x80000 start.o
- .text          0x0000000000110274       0x30 topixel.o
-                0x0000000000110274                topixel
+ .text          0x00000000000900c8        0x0 geometria.o
+ .text          0x00000000000900c8        0x0 graficos.o
+ .text          0x00000000000900c8        0x0 objetos.o
+ .text          0x00000000000900c8    0x80000 start.o
 
-.iplt           0x00000000001102a4        0x0
- .iplt          0x00000000001102a4        0x0 dline.o
+.iplt           0x00000000001100c8        0x0
+ .iplt          0x00000000001100c8        0x0 start.o
 
-.rela.dyn       0x00000000001102a8        0x0
- .rela.iplt     0x00000000001102a8        0x0 dline.o
+.rela.dyn       0x00000000001100c8        0x0
+ .rela.iplt     0x00000000001100c8        0x0 start.o
  .rela.text.boot
-                0x00000000001102a8        0x0 dline.o
+                0x00000000001100c8        0x0 start.o
 
-.data           0x00000000001102a4     0x12d8
- .data          0x00000000001102a4      0x7ec app.o
-                0x00000000001108f8                main
- .data          0x0000000000110a90       0x80 datos.o
- .data          0x0000000000110b10        0x0 dline.o
- .data          0x0000000000110b10      0x420 graficos.o
- .data          0x0000000000110f30      0x64c props.o
- .data          0x000000000011157c        0x0 rectangle.o
- .data          0x000000000011157c        0x0 start.o
- .data          0x000000000011157c        0x0 topixel.o
+.data           0x00000000001100c8   0x70aa48
+ .data          0x00000000001100c8   0x12ce08 app.o
+                0x000000000023cdf0                main
+ .data          0x000000000023ced0   0x12c0a0 datos.o
+ .data          0x0000000000368f70   0x12c480 geometria.o
+ .data          0x00000000004953f0   0x12cbe4 graficos.o
+ .data          0x00000000005c1fd4   0x12caa8 objetos.o
+ .data          0x00000000006eea7c   0x12c094 start.o
 
-.igot.plt       0x0000000000111580        0x0
- .igot.plt      0x0000000000111580        0x0 dline.o
+.igot.plt       0x000000000081ab10        0x0
+ .igot.plt      0x000000000081ab10        0x0 start.o
 
-.bss            0x000000000011157c        0x0
+.bss            0x000000000081ab10        0x0
  *(.bss*)
- .bss           0x000000000011157c        0x0 app.o
- .bss           0x000000000011157c        0x0 datos.o
- .bss           0x000000000011157c        0x0 dline.o
- .bss           0x000000000011157c        0x0 graficos.o
- .bss           0x000000000011157c        0x0 props.o
- .bss           0x000000000011157c        0x0 rectangle.o
- .bss           0x000000000011157c        0x0 start.o
- .bss           0x000000000011157c        0x0 topixel.o
+ .bss           0x000000000081ab10        0x0 app.o
+ .bss           0x000000000081ab10        0x0 datos.o
+ .bss           0x000000000081ab10        0x0 geometria.o
+ .bss           0x000000000081ab10        0x0 graficos.o
+ .bss           0x000000000081ab10        0x0 objetos.o
+ .bss           0x000000000081ab10        0x0 start.o
 
-.bss            0x000000000011157c        0x4
-                0x0000000000111580                . = ALIGN (0x10)
- *fill*         0x000000000011157c        0x4 
-                0x0000000000111580                __bss_start = .
+.bss            0x000000000081ab10        0x0
+                0x000000000081ab10                . = ALIGN (0x10)
+                0x000000000081ab10                __bss_start = .
  *(.bss .bss.*)
  *(COMMON)
-                0x0000000000111580                __bss_end = .
-                0x0000000000111580                _end = .
+                0x000000000081ab10                __bss_end = .
+                0x000000000081ab10                _end = .
                 0x0000000000000000                __bss_size = ((__bss_end - __bss_start) >> 0x3)
 OUTPUT(kernel8.elf elf64-littleaarch64)
 LOAD linker stubs
 
-.debug_line     0x0000000000000000      0x178
- .debug_line    0x0000000000000000       0x82 dline.o
- .debug_line    0x0000000000000082       0x5d rectangle.o
- .debug_line    0x00000000000000df       0x53 start.o
- .debug_line    0x0000000000000132       0x46 topixel.o
+.debug_line     0x0000000000000000       0x53
+ .debug_line    0x0000000000000000       0x53 start.o
 
-.debug_info     0x0000000000000000       0xb8
- .debug_info    0x0000000000000000       0x2e dline.o
- .debug_info    0x000000000000002e       0x2e rectangle.o
- .debug_info    0x000000000000005c       0x2e start.o
- .debug_info    0x000000000000008a       0x2e topixel.o
+.debug_info     0x0000000000000000       0x2e
+ .debug_info    0x0000000000000000       0x2e start.o
 
-.debug_abbrev   0x0000000000000000       0x50
- .debug_abbrev  0x0000000000000000       0x14 dline.o
- .debug_abbrev  0x0000000000000014       0x14 rectangle.o
- .debug_abbrev  0x0000000000000028       0x14 start.o
- .debug_abbrev  0x000000000000003c       0x14 topixel.o
+.debug_abbrev   0x0000000000000000       0x14
+ .debug_abbrev  0x0000000000000000       0x14 start.o
 
-.debug_aranges  0x0000000000000000       0xc0
+.debug_aranges  0x0000000000000000       0x30
  .debug_aranges
-                0x0000000000000000       0x30 dline.o
- .debug_aranges
-                0x0000000000000030       0x30 rectangle.o
- .debug_aranges
-                0x0000000000000060       0x30 start.o
- .debug_aranges
-                0x0000000000000090       0x30 topixel.o
+                0x0000000000000000       0x30 start.o
 
-.debug_str      0x0000000000000000       0x5b
- .debug_str     0x0000000000000000       0x3d dline.o
- .debug_str     0x000000000000003d        0xc rectangle.o
-                                         0x41 (size before relaxing)
- .debug_str     0x0000000000000049        0x8 start.o
-                                         0x3d (size before relaxing)
- .debug_str     0x0000000000000051        0xa topixel.o
-                                         0x3f (size before relaxing)
+.debug_str      0x0000000000000000       0x3a
+ .debug_str     0x0000000000000000       0x3a start.o

@@ -2,9 +2,7 @@
 	.org 0x80000
 
 	// Setup Frame Buffer
-	.equ SCREEN_WIDTH, 		640
-	.equ SCREEN_HEIGH, 		480
-	.equ BITS_PER_PIXEL, 	32
+	.include "datos.s"
 
 	.equ MAIL_BASE,  0xB880 // Mailbox Base Address
 	.equ MAIL_WRITE, 0x20 // Mailbox Write Register
